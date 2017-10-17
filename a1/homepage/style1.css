@@ -1,0 +1,46 @@
+body {
+	background-color:   #0d0d0d;
+	text-align:center;
+}
+
+header {
+	background-image: url("header.jpg");
+	margin: auto;
+	height: 80px;
+	width: 100%;
+}
+
+#header_title {
+	color: #b3b3b3;
+	text-align: center;
+	text-decoration: overline;
+	text-shadow: 3px 2px #660000;
+	font-size: 50px;
+}
+
+article {
+	margin: auto;
+	height: 100px;
+	width: 40%;
+}
+
+aside{
+	margin: auto;
+	height: 100px;
+	width: 30%;
+}
+
+p {
+	color: #00b300;
+	text_align: center;
+}
+
+h1, h3 {
+	color: #b3b3b3;
+}
+
+.bordered{
+	border-style: outset;
+	border-width: medium;
+	border-color: #737373;
+}
