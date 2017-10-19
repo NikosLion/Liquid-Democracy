@@ -60,7 +60,7 @@ p {
 
 section {
 	margin: auto;
-	height: 150px;
+	height: 250px;
 	width: 100%;
 	display: inline-block;
 }
@@ -70,6 +70,13 @@ audio {
 	padding: 5px;
 	display: block;
 	float: left;
+}
+
+video {
+	margin: auto;
+	padding: 5px;
+	display: block;
+	float: right;
 }
 
 aside{
