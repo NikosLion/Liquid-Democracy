@@ -11,7 +11,7 @@ header {
 }
 
 #header_title {
-	color: #b3b3b3;
+	color: #bfbfbf;
 	text-align: center;
 	text-decoration: overline;
 	text-shadow: 3px 2px #660000;
@@ -45,12 +45,27 @@ nav ul li:hover {
 	background-color: #404040;
 }
 
+div {
+	width: 100%;
+}
+
 article {
 	margin: auto;
-	height: 350px;
+	height: 460px;
 	width: 60%;
+	display: block;
+	float: center;
+}
+
+article ul{
 	display: inline-block;
-	float: left;
+	color: #b3b3b3;
+	text-align: justify;
+}
+
+img{
+	max-width: 100%;
+	height: auto;
 }
 
 p {
@@ -58,9 +73,15 @@ p {
 	text_align: center;
 }
 
+#sec {
+	margin: auto;
+	display: inline-block;
+	width: 60%;
+}
+
 section {
 	margin: auto;
-	height: 250px;
+	height: 280px;
 	width: 100%;
 	display: inline-block;
 }
@@ -69,23 +90,21 @@ audio {
 	margin: auto;
 	padding: 5px;
 	display: block;
-	float: left;
 }
 
 video {
 	margin: auto;
 	padding: 5px;
 	display: block;
-	float: right;
 }
 
 aside{
 	margin: auto;
 	height: 350px;
-	width: 39%;
+	width: 60%;
 	color: #b3b3b3;
-	display: inline-block;
-	float: right;
+	display: block;
+	float: center;
 	
 }
 

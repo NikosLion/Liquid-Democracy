@@ -6,6 +6,7 @@
 		<meta name="description" content="Basic info for me">
 		<meta name="keywords" content="CSD,CS359,1stAssignement">
 		<meta name="author" content="Nick Lionakis">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>My Homepage</title>
 	</head>
 	<body>
@@ -16,17 +17,25 @@
 			<ul>
 				<a class="navi" href="#"><li>Home</li></a>
 				<a class="navi" href="#Info"><li>Info</li></a>
+				<a class="navi" href="#Contact"><li>Contact</li></a>
+				<a class="navi" href="#Media"><li>Media</li></a>
 				<a class="navi" href="#Bot"><li>Bottom</li></a>
 			</ul>
 		</nav>
+	<div>	
 		<article class="bordered">
 				<h1 id="Info" class="background bordered">Personal information</h1>
 				<p>My name is Nick Lionakis and I'm a pre-graduate student at
 				CS Department of University of Crete.My main interests at CS are
 				web programming and graphics.</p>
+				<p>Contact info:</p>
+				<ul id="Contact">
+					<li>Email: nick.lionakis@gmail.com</li>
+					<li>Phone: 69xxxxxxxx</li>
+				</ul>
 				<figure>
 					<a href="https://1.bp.blogspot.com/-e1ketrNSkPE/VvWrXRYby_I/AAAAAAAAMn0/ZjXEGq0yFWMNhhyBKvVHqdqLFgs6Pdi8A/s1600/Akali_Splash_2.jpg">
-						<img src="https://1.bp.blogspot.com/-e1ketrNSkPE/VvWrXRYby_I/AAAAAAAAMn0/ZjXEGq0yFWMNhhyBKvVHqdqLFgs6Pdi8A/s1600/Akali_Splash_2.jpg" alt="Crimson Akali" height="200" width="350">
+						<img src="https://1.bp.blogspot.com/-e1ketrNSkPE/VvWrXRYby_I/AAAAAAAAMn0/ZjXEGq0yFWMNhhyBKvVHqdqLFgs6Pdi8A/s1600/Akali_Splash_2.jpg" alt="Crimson Akali" width="350">
 					</a>
                 </figure>
 		</article>
@@ -54,16 +63,19 @@
 			<h3 class="background bordered">Video link</h3>
 				<a id ="video_link" href="https://youtu.be/S3AdyZ5QzB0?t=1465">Best Stream Moment</a>
 		</aside>
-		<section class="bordered">
-			<audio controls>
-				<source src="Slash.mp3" type="audio/mpeg">
-				Your browser does not support the audio tag.
-			</audio>
-			<video width="320" height="240" controls preload="none">
-				<source src="Dramatic Cat.mp4" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
-		</section>
+	</div>	
+		<div id="sec">
+			<section id="Media">
+				<audio controls>
+					<source src="Slash.mp3" type="audio/mpeg">
+					Your browser does not support the audio tag.
+				</audio>
+				<video width="320" height="240" controls preload="none">
+					<source src="Dramatic Cat.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</section>
+		</div>
 		<footer>
 			<p>This is an assignement for the CS359 course of Computer Science Department,
 			University of Crete.</p>
