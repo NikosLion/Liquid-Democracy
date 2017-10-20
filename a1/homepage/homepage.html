@@ -7,6 +7,7 @@
 		<meta name="keywords" content="CSD,CS359,1stAssignement">
 		<meta name="author" content="Nick Lionakis">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<title>My Homepage</title>
 	</head>
 	<body>
@@ -21,6 +22,7 @@
 				<a class="navi" href="#Media"><li>Media</li></a>
 				<a class="navi" href="#Bot"><li>Bottom</li></a>
 			</ul>
+			<div class="handle">Menu</div>
 		</nav>
 	<div>	
 		<article class="bordered">
@@ -65,7 +67,7 @@
 		</aside>
 	</div>	
 		<div id="sec">
-			<section id="Media">
+			<section id="Media" class="bordered">
 				<audio controls>
 					<source src="Slash.mp3" type="audio/mpeg">
 					Your browser does not support the audio tag.
@@ -83,5 +85,10 @@
 		</footer>
 		<div>
 		</div>
+	<script>
+		$('.handle').on('click', function(){
+			$('nav ul').toggleClass('showing');
+		});
+	</script>
 	</body>
 </html>

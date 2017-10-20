@@ -34,6 +34,7 @@ nav ul {
 	color: white;
 	padding: 0;
 	text-align: center;
+	-webkit-transition: max-height 0.4s;
 }
 
 nav ul li {
@@ -43,6 +44,17 @@ nav ul li {
 
 nav ul li:hover {
 	background-color: #404040;
+}
+
+.handle{
+	width: 100%;
+	background: #595959;
+	text-align: left;
+	box-sizing: border-box;
+	padding: 10px;
+	cursor: pointer;
+	color: #b3b3b3;
+	display: none;
 }
 
 div {
@@ -81,7 +93,7 @@ p {
 
 section {
 	margin: auto;
-	height: 280px;
+	height: 290px;
 	width: 100%;
 	display: inline-block;
 }
@@ -158,4 +170,78 @@ footer {
 
 .background {
 	background-color:  #4d0000;
+}
+
+@media all and (max-width: 589px){
+	#header_title{
+		font-size: 40px;
+	}
+}
+
+@media all and (max-width: 480px){
+	#sec {
+		width: 75%;
+	}
+	
+	article{
+		width: 75%;
+	}
+	
+	aside{
+		width: 75%;
+	}
+	
+	.navi {
+		font-size: 17px;
+	}
+}
+
+@media all and (max-width: 320px){
+	nav ul{
+		max-height: 0;
+	}
+	
+	.showing{
+		max-height: 20em;
+	}
+	
+	nav ul li{
+		box-sizing: border-box;
+		width: 100%;
+		padding: 10px;
+		text-align: left;
+	}
+	
+	.handle {
+		display: block;
+	}
+	
+	article{
+		width: 100%;
+	}
+	
+	aside{
+		width: 100%;
+	}
+	
+	th{
+		font-size: 11px;
+	}
+	
+	tr {
+		font-size: 9px;
+	}
+	
+	#sec{
+		width: 100%;
+	}
+	
+	audio {
+		width: 93%;
+	}
+	
+	video{
+		width: 93%;
+		height: 83%;
+	}
 }
