@@ -106,7 +106,7 @@ audio {
 
 video {
 	margin: auto;
-	padding: 5px;
+	padding: 0;
 	display: block;
 }
 
@@ -148,7 +148,7 @@ a:active{
 	color: white;
 }
 
-h1, h3 {
+h1, h2, h3 {
 	color: #b3b3b3;
 	text-align: center;
 }
