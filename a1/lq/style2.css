@@ -1,0 +1,140 @@
+body {
+	background: url("black.jpg");
+	background-position: top;
+	background-repeat: no-repeat;
+	background-color: #001433;
+}
+
+h1 {
+	color: #ff6600;
+	text-align: center;
+	text-decoration: none;
+	font-size: 50px;
+	text-shadow: 3px 3px 6px #803300;
+}
+
+h3 {
+	color: #ff6600;
+	text-align: center;
+	text-decoration: none;
+	font-size: 30px;
+	text-shadow: 3px 3px 6px #803300;
+}
+
+form{
+	color: #cccccc;
+	font-size: 17px;
+	font-weight: 900;
+	text-align: center;
+}
+
+input[type=text], select {
+	width: 30%;
+	padding: 8px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ff6600;
+	border-radius: 7px;
+	box-sizing: border-box;
+	background-color: #d9d9d9;
+	font-size: 16px;
+	font-weight: 800;
+	color: #595959;
+}
+
+input[type=email]{
+	width: 30%;
+	padding: 8px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ff6600;
+	border-radius: 7px;
+	box-sizing: border-box;
+	background-color: #d9d9d9;
+	font-size: 16px;
+	font-weight: 800;
+	color: #595959;
+}
+
+input[type=password]{
+	width: 30%;
+	padding: 8px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ff6600;
+	border-radius: 7px;
+	box-sizing: border-box;
+	background-color: #d9d9d9;
+	font-size: 16px;
+	font-weight: 800;
+	color: #595959;
+}
+
+input[type=number]{
+	width: 30%;
+	padding: 8px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ff6600;
+	border-radius: 7px;
+	box-sizing: border-box;
+	background-color: #d9d9d9;
+	font-size: 16px;
+	font-weight: 800;
+	color: #595959;
+}
+
+input[type=radio]{
+	
+}
+
+input[type=submit] {
+	width: 15%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ff6600;
+	border-radius: 7px;
+	box-sizing: border-box;
+	background-color: #ff6600;
+	color: #d9d9d9;
+	font-size: 19px;
+}
+
+input[type=text]:focus{
+	background-color: #f2f2f2;
+	border-width: 4px;
+}
+
+input[type=email]:focus{
+	background-color: #f2f2f2;
+	border-width: 4px;
+}
+
+input[type=password]:focus{
+	background-color: #f2f2f2;
+	border-width: 4px;
+}
+
+input[type=number]:focus{
+	background-color: #f2f2f2;
+	border-width: 4px;
+}
+
+div {
+	width: 100%;
+	text-align: center;
+}
+
+p {
+	color: #b3b3b3;
+	text-align: center;
+}
+
+footer {
+	margin: auto;
+	height: 30px;
+	width: 40%;
+	display: inline-block;
+	float: bottom;
+}
