@@ -2,7 +2,7 @@ body {
 	background: url("black.jpg");
 	background-position: top;
 	background-repeat: no-repeat;
-	background-color: #001433;
+	background-color: black;
 }
 
 h1 {
@@ -88,6 +88,12 @@ input[type=radio]{
 	
 }
 
+input[type=radio] + label span{
+	display: inline-block;
+	width: 19px;
+	height: 19px;
+}
+
 input[type=submit] {
 	width: 15%;
 	padding: 12px 20px;
@@ -104,21 +110,35 @@ input[type=submit] {
 input[type=text]:focus{
 	background-color: #f2f2f2;
 	border-width: 4px;
+	outline: 0;
 }
 
 input[type=email]:focus{
 	background-color: #f2f2f2;
 	border-width: 4px;
+	outline: 0;
 }
 
 input[type=password]:focus{
 	background-color: #f2f2f2;
 	border-width: 4px;
+	outline: 0;
 }
 
 input[type=number]:focus{
 	background-color: #f2f2f2;
 	border-width: 4px;
+	outline: 0;
+}
+
+input[type=submit]:focus{
+	outline: 0;
+}
+
+select:focus{
+	background-color: #f2f2f2;
+	border-width: 4px;
+	outline: 0;
 }
 
 div {
@@ -137,4 +157,48 @@ footer {
 	width: 40%;
 	display: inline-block;
 	float: bottom;
+}
+
+@media all and (max-width: 480px){
+	input[type=text], select {
+		width: 50%;
+	}
+	
+	input[type=email]{
+		width: 50%;
+	}
+	
+	input[type=password]{
+		width: 50%;
+	}
+	
+	input[type=number]{
+		width: 50%;
+	}
+	
+	input[type=submit]{
+		width: 50%;
+	}
+}
+
+@media all and (max-width: 320px){
+	input[type=text], select {
+		width: 70%;
+	}
+	
+	input[type=email]{
+		width: 70%;
+	}
+	
+	input[type=password]{
+		width: 70%;
+	}
+	
+	input[type=number]{
+		width: 70%;
+	}
+	
+	input[type=submit]{
+		width: 70%;
+	}
 }

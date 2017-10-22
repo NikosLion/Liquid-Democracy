@@ -18,6 +18,10 @@ header {
 	font-size: 50px;
 }
 
+/*
+	A class for all the navigation buttons
+	in the <nav> element.
+*/
 .navi {
 	text-decoration: none;
 	font-size: 22px;
@@ -46,6 +50,20 @@ nav ul li:hover {
 	background-color: #404040;
 }
 
+/*Separate styling for navigation(internal) links*/
+.buttons {
+	color: #b3b3b3;
+	text-decoration: none;
+}
+
+.buttons:hover {
+	color: #b3b3b3;
+}
+
+/*
+	A menu handle to hide/show the
+	navigation buttons.
+*/
 .handle{
 	width: 100%;
 	background: #595959;
@@ -82,7 +100,7 @@ img{
 
 p {
 	color: #b3b3b3;
-	text_align: center;
+	text-align: center;
 }
 
 #sec {
@@ -161,6 +179,7 @@ footer {
 	float: bottom;
 }
 
+/*Every element that has a border*/
 .bordered {
 	border-style: outset;
 	border-width: medium;
@@ -168,6 +187,8 @@ footer {
 	border-radius: 7px;
 }
 
+
+/*Every element that has a background*/
 .background {
 	background-color:  #4d0000;
 }
@@ -200,7 +221,7 @@ footer {
 	nav ul{
 		max-height: 0;
 	}
-	
+	/*Used with jquery for the menu button*/
 	.showing{
 		max-height: 20em;
 	}
