@@ -22,21 +22,34 @@ h3 {
 }
 
 #container {
-	border: 1px solid #ff6600;
+	position: relative;
+	height: 1325px;
 }
 
 #map {
   height: 350px;
   width: 0%;
-	display: inline-block;
 	float: right;
 	text-align: center;
  }
 
+#cameraCont {
+	height: 350px;
+	width: 0%;
+	float: right;
+	display: none;
+	text-align: center;
+}
+
 #formContainer {
-	display: inline-block;
 	float: left;
 	width: 100%;
+}
+
+.bot{
+	position: absolute;
+	bottom: 0;
+	padding-top: 5px;
 }
 
 form{

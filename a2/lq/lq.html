@@ -8,6 +8,7 @@
 		<meta name="author" content="Nick Lionakis">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script src="lq_js_scripts.js"> </script>
+		<script src="face.js"></script>
 		<title>Sign up</title>
 	</head>
 	<body>
@@ -16,17 +17,26 @@
 			<h3>Be water, my friend</h3>
 		</header>
 		<div id="container">
-			<div id="map">
-				<div id="mapmap"></div>
+			<div id="map"></div>
+			<div id="cameraCont">
+				<video id='video' width='450' height='400' autoplay></video>
+			  <input type='button' id="snap" value ='Take Photo'>
+			  <input type='button' id="upload" value ='Upload Image'>
+			  <canvas id='canvas' width='450' height='400'></canvas>
 			</div>
+		  <script>
+		    faceRec.init();
+		  </script>
 			<!-- Replace the value of the key parameter with your own API key. -->
 			<script async defer
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXdnZn1oYfoOCL1I7yY7HpzAllg8DRDTU&callback=initMap">
 			</script>
 			<div id="formContainer">
 				<form id="myform" method="post">
+						<div id="mapBut"></div>
+						<div id="cameraBut"></div>
 						Username<br>
-						<input type="text" name="Username" minlength="8" required><br>
+						<input type="text" name="Username" minlength="8" required onchange="showRadio()"><br>
 						Email<br>
 						<input type="email" name="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required><br>
 						Password<br>
@@ -91,7 +101,7 @@
 						<input type="radio" name="gender" value="Female">Female<br>
 						<input type="radio" name="gender" value="Non-Applicable">Non-Applicable<br>
 						Country<br>
-							<select id="country" required>
+							<select id="country" required onchange="evalAddress()">
 							<option value="Afghanistan">Afghanistan</option>
 							<option value="Albania">Albania</option>
 							<option value="Algeria">Algeria</option>
@@ -345,14 +355,14 @@
 						<input type="submit" value="Sign up">
 				</form>
 			</div>
-		</div>
-		<div>
+		<div class="bot">
 			<footer>
 				<p>This is an assignement for the CS359 course of Computer Science Department,
 				University of Crete.</p>
 				<p id="Bot"><small>Copyright 2017 <abbr title= "Nick Lion Software">NLS</abbr></small></p>
 			</footer>
 		</div>
+	</div>
 	</body>
 
 
