@@ -96,14 +96,13 @@ var faceRec = (function () {
       data.append('api_secret', faceAPI.apiSecret);
       // add also other query parameters based on the request
       // you have to send
-
+      data.append('image_file', image);
       // You have to implement the ajaxRequest. Here you can
       // see an example usage of how you should call this
       // First argument: the HTTP method
       // Second argument: the URI where we are sending our request
       // Third argument: the data (the parameters of the request)
-      ajaxRequest('POST', faceAPI.search, data);
-
+      ajaxRequest('POST', faceAPI.detect, data);
     } else {
       alert('No image has been taken!');
     }
@@ -137,7 +136,7 @@ var faceRec = (function () {
 
       // Trigger photo take
       document.getElementById('snap').addEventListener('click', function() {
-        context.drawImage(video, 0, 0, 640, 480);
+        context.drawImage(video, 0, 0, 450, 400);
         state.photoSnapped = true; // photo has been taken
       });
 
@@ -154,7 +153,27 @@ var faceRec = (function () {
     // You have to implement the ajaxRequest function!!!!
 
   // !!!!!!!!!!! =========== END OF TODO  ===============================
-
+  function ajaxRequest(method,type,data){
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function(){
+      console.log(http);
+      console.log(http.status);
+      if(this.readyState == 4 && this.status == 200){
+        //console.log(http.response);
+        var response = JSON.parse(http.response);
+        //GG
+        console.log(response.faces[0].face_token, 'FACE TOKEN');
+        //send request to faceAPI.setuserId
+        //if succesful send request to faceAPI.addFace with
+        //face token the one returned from faceAPI.detect
+        //and outer_id::hy359
+        //make a different function for each of 3 requests(?)
+        //e.g. after faceAPI.detect response call ajaxRequest2(method,faceAPI.setuserid,response.faces[0].face_token);
+      }
+    }
+    http.open(method, type, true);
+    http.send(data);
+  }
   // Public API of function for facet recognition
   // You might need to add here other methods based on your implementation
   return {

@@ -214,6 +214,7 @@ function showCamera(){
   oldUpload = document.getElementById('upload');
   mainDivElement.style.display = "inline-block";
   mainDivElement.style.width = "40%";
+  mainDivElement.style.height = "440px";
   mainDivElement.style.position = "absolute";
   mainDivElement.style.right = "0";
   oldSnap.style.display = "inline-block";
