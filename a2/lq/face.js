@@ -164,7 +164,7 @@ var faceRec = (function () {
     var http = new XMLHttpRequest();
     http.onreadystatechange = function(){
       console.log(http);
-      console.log(http.status);
+      console.log(http.status, 'ajaxrequestDetect');
       if(this.readyState == 4 && this.status == 200){
         //console.log(http.response);
         var response = JSON.parse(http.response);
@@ -196,10 +196,30 @@ var faceRec = (function () {
     var http = new XMLHttpRequest();
     http.onreadystatechange = function(){
       console.log(http);
-      console.log(http.status);
+      console.log(http.status, 'setuserid');
       if(this.readyState == 4 && this.status == 200){
         var response = JSON.parse(http.response);
         console.log(response.user_id, 'USER ID RETURNED FROM SETUSERID');
+        var data3 = new FormData();
+        data3.append('api_key', faceAPI.apiKey);
+        data3.append('api_secret', faceAPI.apiSecret);
+        data3.append('outer_id', 'hy359');
+        data3.append('face_tokens', faceToken);
+        addface('POST',faceAPI.addFace,data3);
+      }
+    }
+    http.open(method, type, true);
+    http.send(data);
+  }
+//function to add photo to hy359 existing faceset
+  function addface(method,type,data){
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function(){
+      console.log(http);
+      console.log(http.status, 'addface');
+      if(this.readyState == 4 && this.status == 200){
+        var response = JSON.parse(http.response);
+        console.log(response.outer_id, 'ADD FACE RESPONSE');
       }
     }
     http.open(method, type, true);
