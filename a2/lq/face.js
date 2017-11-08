@@ -10,7 +10,7 @@
 
 /*  face recognition that is based on faceplusplus service */
 var faceRec = (function () {
-
+  var faceToken = new String();
   // Object that holds anything related with the facetPlusPlus REST API Service
   var faceAPI = {
     apiKey: 'l2jNgKbk1HXSR4vMzNygHXx2g8c_xT9c',
@@ -84,7 +84,7 @@ var faceRec = (function () {
     if (state.photoSnapped) {
       var canvas = document.getElementById('canvas');
       var image = getImageAsBlobFromCanvas(canvas);
-
+      var response;
       // TODO!!! Well this is for you ... YES you!!!
       // Good luck!
 
@@ -102,7 +102,14 @@ var faceRec = (function () {
       // First argument: the HTTP method
       // Second argument: the URI where we are sending our request
       // Third argument: the data (the parameters of the request)
-      ajaxRequest('POST', faceAPI.detect, data);
+      ajaxRequestDetect('POST', faceAPI.detect, data);
+      //var data2 = new FormData();
+      //data2.append('api_key', faceAPI.apiKey);
+      //data2.append('api_secret', faceAPI.apiSecret);
+      //data2.append('face_token', faceToken);
+      //data2.append('user_id', document.getElementById('username').value);
+      //console.log(data2.get('face_token'));
+      //setuserid(data2);
     } else {
       alert('No image has been taken!');
     }
@@ -153,7 +160,7 @@ var faceRec = (function () {
     // You have to implement the ajaxRequest function!!!!
 
   // !!!!!!!!!!! =========== END OF TODO  ===============================
-  function ajaxRequest(method,type,data){
+  function ajaxRequestDetect(method,type,data){
     var http = new XMLHttpRequest();
     http.onreadystatechange = function(){
       console.log(http);
@@ -163,12 +170,36 @@ var faceRec = (function () {
         var response = JSON.parse(http.response);
         //GG
         console.log(response.faces[0].face_token, 'FACE TOKEN');
+        faceToken = response.faces[0].face_token;
+        var data2 = new FormData();
+        data2.append('api_key', faceAPI.apiKey);
+        data2.append('api_secret', faceAPI.apiSecret);
+        data2.append('face_token', faceToken);
+        data2.append('user_id', document.getElementById('username').value);
+        setuserid('POST',faceAPI.setuserId,data2);
+        //console.log(faceToken));
+        //return response;
         //send request to faceAPI.setuserId
         //if succesful send request to faceAPI.addFace with
         //face token the one returned from faceAPI.detect
         //and outer_id::hy359
         //make a different function for each of 3 requests(?)
         //e.g. after faceAPI.detect response call ajaxRequest2(method,faceAPI.setuserid,response.faces[0].face_token);
+      }
+    }
+    http.open(method, type, true);
+    http.send(data);
+  }
+  //GG.Na kanw kai thn FaceSet:ADDFACE
+  function setuserid(method,type,data){
+    console.log(data.get('face_token'), 'SETUSERID');
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function(){
+      console.log(http);
+      console.log(http.status);
+      if(this.readyState == 4 && this.status == 200){
+        var response = JSON.parse(http.response);
+        console.log(response.user_id, 'USER ID RETURNED FROM SETUSERID');
       }
     }
     http.open(method, type, true);

@@ -41,6 +41,32 @@ h3 {
 	text-align: center;
 }
 
+#snap {
+	width: 20%;
+	padding: 4px 4px;
+	margin: 2px 0;
+	display: inline-block;
+	border: 1px solid #ff6600;
+	border-radius: 7px;
+	box-sizing: border-box;
+	background-color: #ff6600;
+	color: #d9d9d9;
+	font-size: 13px;
+}
+
+#upload {
+	width: 20%;
+	padding: 4px 4px;
+	margin: 2px 0;
+	display: inline-block;
+	border: 1px solid #ff6600;
+	border-radius: 7px;
+	box-sizing: border-box;
+	background-color: #ff6600;
+	color: #d9d9d9;
+	font-size: 13px;
+}
+
 #formContainer {
 	float: left;
 	width: 100%;
@@ -157,6 +183,10 @@ input[type=number]:focus{
 }
 
 input[type=submit]:focus{
+	outline: 0;
+}
+
+input[type=button]:focus{
 	outline: 0;
 }
 
