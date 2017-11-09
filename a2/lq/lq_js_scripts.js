@@ -13,6 +13,7 @@ function CheckPassEquality(){
     message.value = "Password Missmatch";
   }
 }
+
 /*This function resets the type of input element with id="pass2"
 to 'password'.*/
 function ResetPassword(){
@@ -30,42 +31,29 @@ var map;
 var geocoder;
 var geoAddress;
 var marker;
-/*Google function to initialize our map.Change it so that it
-only shows map when user presses button*/
+/*Google function to initialize our map*/
 function initMap() {
-  /*var uluru = {lat: 35.321288, lng: 25.164185};
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 6,
-    center: uluru
-  });
-  marker = new google.maps.Marker({
-    position: uluru,
-    map: map
-  });*/
+  /*Only exists so that we can use the Google APIs script*/
 }
 
 
-//na dinei to koumpi.Sto koumpi onclick() na emfanizetai o xarths
-//RENAME TO BE THE FUNCTION TO MAKE THE MAP APPEAR WITH THE MARKER
+
+/*Create and initialise Google Maps with a marker, both centered
+  to the address provided by the user*/
 function createMap() {
-    alert(geoAddress);
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': geoAddress}, function(results,status){
       if (status == 'OK'){
-        alert('status OK');
-        alert(results[0].formatted_address);
         console.log(results[0].formatted_address);
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
           center: results[0].geometry.location
         });
-        //map.setCenter(results[0].geometry.location);
         marker = new google.maps.Marker({
             map: map,
             position: results[0].geometry.location
         });
         console.log(marker.position);
-
         formCont = document.getElementById('formContainer');
         mapCont = document.getElementById('map');
         formCont.style.width = "60%";
@@ -82,11 +70,13 @@ function createMap() {
           delete oldButton;
         }
       }else {
-        alert('ton hpiame');
+        alert('Address not found');
       }
     });
 }
-//make button.
+
+/*Evaluate the validity of the address provided by the user
+  and provide a button that enables Google Maps on our page*/
 function evalAddress() {
   var country = document.getElementById('country').value;
   var city = document.getElementById('city').value;
@@ -96,27 +86,25 @@ function evalAddress() {
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': geoAddress}, function(results,status){
       if (status == 'OK'){
-        alert('STATUS OK');
-        //remove old button before creating the new one.WORKS
-        //also need to get rid of map in this case
+        /*remove old button before creating the new one*/
         var oldButton = document.getElementById('mapButton');
         if(oldButton != null){
           oldButton.outerHTML = "";
           delete oldButton;
         }
-        //delete map
+        /*delete map*/
         var oldMap = document.getElementById('map');
         console.log(oldMap);
         if(oldMap != null){
           document.getElementById('map').innerHTML = "";
         }
-        //rearange form to 100% width if there is no camera showing
+        /*rearange form to 100% width if there is no camera showing*/
         oldCamera = document.getElementById('cameraCont');
         if(oldCamera === null){
           formCont = document.getElementById('formContainer');
           formCont.style.width = "100%";
         }
-        //make new button
+        /*make new button*/
         mainDivElement = document.getElementById('mapBut');
         newButton = document.createElement('input');
         newButton.setAttribute('id', 'mapButton');
@@ -136,7 +124,7 @@ function evalAddress() {
         newButton.style.backgroundColor = '#ff6600';
         newButton.style.color = '#d9d9d9';
         newButton.style.fontSize = '19px';
-        //fix button position if form is narrow
+        /*fix button position if form is narrow*/
         formCont = document.getElementById('formContainer');
         if(formCont.style.width === "60%"){
           newButton.style.right = "100px";
@@ -144,28 +132,27 @@ function evalAddress() {
         }
         mainDivElement.appendChild(newButton);
       }else {
-        //give message that we cant find specified address
-        alert('ton hpiame');
+        /*give message that we cant find specified address*/
+        alert('Address not found');
       }
     });
   }
 }
 
 function showRadio(){
-  //na ta ksanadw.Otan exei xarth paei to koumpi pio aristera
-  //get rid of previous 'show camera' button
+  /*get rid of previous 'show camera' button*/
   oldButton = document.getElementById('CameraButton');
   if(oldButton != null){
     document.getElementById('CameraButton').outerHTML = "";
   }
-  //hide camera and buttons
+  /*hide camera and buttons*/
   oldCamera = document.getElementById('cameraCont');
   oldSnap = document.getElementById('snap');
   oldUpload = document.getElementById('upload');
   oldCamera.style.display = "none";
   oldSnap.style.display = "none";
   oldUpload.style.display = "none";
-  //if there is a map in the page dont mess with form.
+  /*if there is a map in the page dont mess with form.*/
   oldmap = document.getElementById('map');
   if(oldmap === null){
     formCont = document.getElementById('formContainer');
@@ -191,7 +178,7 @@ function showRadio(){
   newButton.style.backgroundColor = '#ff6600';
   newButton.style.color = '#d9d9d9';
   newButton.style.fontSize = '19px';
-  //fix button position if form is narrow
+  /*fix button position if form is narrow*/
   formCont = document.getElementById('formContainer');
   if(formCont.style.width === "60%"){
     newButton.style.right = "100px";
@@ -201,12 +188,12 @@ function showRadio(){
 }
 
 function showCamera(){
-  //get rid of old 'show camera' button
+  /*get rid of old 'show camera' button*/
   oldButton = document.getElementById('CameraButton');
   if(oldButton != null){
     document.getElementById('CameraButton').outerHTML = "";
   }
-  //fix mapButton position
+  /*fix mapButton position*/
   formCont = document.getElementById('formContainer');
   formCont.style.width = "60%";
   mainDivElement = document.getElementById('cameraCont');
@@ -220,4 +207,25 @@ function showCamera(){
   oldSnap.style.display = "inline-block";
   oldUpload.style.display = "inline-block";
   faceRec.init();
+}
+
+/*Swotch between visible/non-visible camera*/
+function toggleCamera(){
+  mainDivElement = document.getElementById('loginCameraCont');
+  if(mainDivElement.style.display === "none"){
+    mainDivElement.style.display = "block";
+    moveCanvas();
+  }else{
+    mainDivElement.style.display = "none";
+  }
+}
+
+/*Set unique style properties for 'canvas'*/
+function moveCanvas(){
+  mainDivElement = document.getElementById('canvas');
+  mainDivElement.style.position = "absolute";
+  mainDivElement.style.top = "20px";
+  mainDivElement.style.left = "500px";
+  mainDivElement.style.height = "350px";
+  mainDivElement.style.width = "450px";
 }

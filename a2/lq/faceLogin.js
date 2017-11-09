@@ -96,14 +96,22 @@ var faceRec = (function () {
       data.append('api_secret', faceAPI.apiSecret);
       // add also other query parameters based on the request
       // you have to send
-      /*The snapshot taken by the user, hopefully with his/her face.*/
+      /*Required fields for the faceAPI:search service*/
       data.append('image_file', image);
+      data.append('outer_id', 'hy359');
       // You have to implement the ajaxRequest. Here you can
       // see an example usage of how you should call this
       // First argument: the HTTP method
       // Second argument: the URI where we are sending our request
       // Third argument: the data (the parameters of the request)
-      ajaxRequestDetect('POST', faceAPI.detect, data);
+      ajaxRequestSearch('POST', faceAPI.search, data);
+      //var data2 = new FormData();
+      //data2.append('api_key', faceAPI.apiKey);
+      //data2.append('api_secret', faceAPI.apiSecret);
+      //data2.append('face_token', faceToken);
+      //data2.append('user_id', document.getElementById('username').value);
+      //console.log(data2.get('face_token'));
+      //setuserid(data2);
     } else {
       alert('No image has been taken!');
     }
@@ -155,66 +163,36 @@ var faceRec = (function () {
 
   // !!!!!!!!!!! =========== END OF TODO  ===============================
 
-  /*Function to detect the user's face by the service.
-    On success, setuserid() function is called*/
-  function ajaxRequestDetect(method,type,data){
+  /*Function to search for user's face in the course's existing
+    faceset and auto-filling his/her username on our log-in page,
+    based on the success of the request.*/
+  function ajaxRequestSearch(method,type,data){
     var http = new XMLHttpRequest();
     http.onreadystatechange = function(){
       console.log(http);
-      console.log(http.status, 'ajaxrequestDetect');
+      console.log(http.status, 'ajaxRequestSearch');
       if(this.readyState == 4 && this.status == 200){
+        //console.log(http.response);
         var response = JSON.parse(http.response);
-        console.log(response.faces[0].face_token, 'FACE TOKEN');
-        faceToken = response.faces[0].face_token;
-        var data2 = new FormData();
-        data2.append('api_key', faceAPI.apiKey);
-        data2.append('api_secret', faceAPI.apiSecret);
-        data2.append('face_token', faceToken);
-        data2.append('user_id', document.getElementById('username').value);
-        setuserid('POST',faceAPI.setuserId,data2);
+        if(response.error_message !== null){
+          document.getElementById('username').value = "No Match";
+        }
+        var maxConf = response.results[0].confidence;
+        var i = 0;
+        while(response.results[i] !== undefined){
+          if(response.results[i].confidence > maxConf){
+            maxConf = response.results[i].confidence;
+          }
+          i++;
+        }
+        console.log(maxConf);
+        document.getElementById('username').value = response.results[i-1].user_id;
       }
     }
     http.open(method, type, true);
     http.send(data);
   }
 
-  /*Function to set user id to 'username' provided by the user.
-    On success, addface() function is caled.*/
-  function setuserid(method,type,data){
-    console.log(data.get('face_token'), 'SETUSERID');
-    var http = new XMLHttpRequest();
-    http.onreadystatechange = function(){
-      console.log(http);
-      console.log(http.status, 'setuserid');
-      if(this.readyState == 4 && this.status == 200){
-        var response = JSON.parse(http.response);
-        console.log(response.user_id, 'USER ID RETURNED FROM SETUSERID');
-        var data3 = new FormData();
-        data3.append('api_key', faceAPI.apiKey);
-        data3.append('api_secret', faceAPI.apiSecret);
-        data3.append('outer_id', 'hy359');
-        data3.append('face_tokens', faceToken);
-        addface('POST',faceAPI.addFace,data3);
-      }
-    }
-    http.open(method, type, true);
-    http.send(data);
-  }
-
-/*Function to add photo to hy359 existing faceset*/
-  function addface(method,type,data){
-    var http = new XMLHttpRequest();
-    http.onreadystatechange = function(){
-      console.log(http);
-      console.log(http.status, 'addface');
-      if(this.readyState == 4 && this.status == 200){
-        var response = JSON.parse(http.response);
-        console.log(response.outer_id, 'ADD FACE RESPONSE');
-      }
-    }
-    http.open(method, type, true);
-    http.send(data);
-  }
 
 
   // Public API of function for facet recognition

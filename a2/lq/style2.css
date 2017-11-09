@@ -41,6 +41,29 @@ h3 {
 	text-align: center;
 }
 
+#loginCameraCont{
+	height: 350px;
+	width: 900px;
+	float: bottom;
+	position: relative;
+	display: none;
+	text-align:center;
+}
+
+#toggleBut{
+	width: 13%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ff6600;
+	border-radius: 7px;
+	box-sizing: border-box;
+	background-color: #ff6600;
+	color: #d9d9d9;
+	font-size: 19px;
+	cursor: pointer;
+}
+
 #snap {
 	width: 20%;
 	padding: 4px 4px;
@@ -156,6 +179,7 @@ input[type=submit] {
 	background-color: #ff6600;
 	color: #d9d9d9;
 	font-size: 19px;
+	cursor: pointer;
 }
 
 input[type=text]:focus{
