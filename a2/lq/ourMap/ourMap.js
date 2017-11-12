@@ -11,6 +11,6 @@ function ourMap(array) {
  // If callback is a function, execute callback
  if(typeof callback === 'function'){TO COMPLETE TOGETHER!
  callback(original);}TO COMPLETE TOGETHER!
- TO COMPLETE! // We have to return something!
+ return mapWithCallback;TO COMPLETE! // We have to return something!
  })
 }
