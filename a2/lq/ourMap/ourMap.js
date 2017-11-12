@@ -4,8 +4,8 @@ function ourMap(array) {
  var original = array;TO COMPLETE!
  return (function mapWithCallback(fn, callback) {
  // If fn is not a function return current Array
- TO COMPLETE TOGETHER!
- TO COMPLETE TOGETHER!
+ if(typeof fn !== 'function'){TO COMPLETE TOGETHER!
+ return current;}TO COMPLETE TOGETHER!
  // map fn to array and save result to current array
  TO COMPLETE!
  // If callback is a function, execute callback
