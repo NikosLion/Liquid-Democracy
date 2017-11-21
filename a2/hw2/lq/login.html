@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style2.css"/>
+		<meta charset="utf-8">
+		<meta name="description" content="Sign up screen">
+		<meta name="keywords" content="CSD,CS359,1stAssignement">
+		<meta name="author" content="Nick Lionakis">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="lq_js_scripts.js"> </script>
+		<script src="faceLogin.js"></script>
+		<title>LQ-Log In</title>
+	</head>
+  <body>
+    <header>
+			<h1>Liquid Democracy</h1>
+			<h3>Be water, my friend</h3>
+		</header>
+    <div id="container">
+      <div id="formContainer">
+        <form id="myform" method="post">
+          Username<br>
+          <input id="username" type="text" name="Username" minlength="8" required><br>
+          Password<br>
+          <input id="pass1" type="password" name="Password" pattern="^(?=.*?[a-z,A-Z])(?=.*?[0-9])(?=.*?[~!@#$%^&*-]).{8,10}$" required><br>
+					<div id="toggleButCont">
+						<input type='button' id='toggleBut' value='Toggle Camera' onclick="toggleCamera()">
+					</div>
+					<input type="submit" value="Log In">
+        </form>
+				<div id="loginCameraCont">
+					<video id='video' width='450' height='400' autoplay></video>
+					<input type='button' id="snap" value ='Take Photo'>
+					<input type='button' id="upload" value ='Auto-Fill'>
+					<canvas id='canvas' width='450' height='400'></canvas>
+				</div>
+				<script>
+					faceRec.init();
+				</script>
+      </div>
+			<div class="bot">
+				<footer>
+					<p>This is an assignement for the CS359 course of Computer Science Department,
+					University of Crete.</p>
+					<p id="Bot"><small>Copyright 2017 <abbr title= "Nick Lion Software">NLS</abbr></small></p>
+				</footer>
+			</div>
+    </div>
+  </body>
