@@ -1,0 +1,292 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 21, 2017, 5:18:58 PM
+    Author     : Nikos Lionakis
+*/
+body {
+    background: url("black.jpg");
+    background-position: top;
+    background-repeat: no-repeat;
+    background-color: black;
+}
+
+h1 {
+    color: #ff6600;
+    text-align: center;
+    text-decoration: none;
+    font-size: 50px;
+    text-shadow: 3px 3px 6px #803300;
+}
+
+h3 {
+    color: #ff6600;
+    text-align: center;
+    text-decoration: none;
+    font-size: 30px;
+    text-shadow: 3px 3px 6px #803300;
+}
+
+#container {
+    position: relative;
+    height: 1325px;
+}
+
+#map {
+    height: 350px;
+    width: 0%;
+    float: right;
+    text-align: center;
+ }
+
+#cameraCont {
+    height: 350px;
+    width: 0%;
+    float: right;
+    display: none;
+    text-align: center;
+}
+
+#loginCameraCont{
+    height: 350px;
+    width: 900px;
+    float: bottom;
+    position: relative;
+    display: none;
+    text-align:center;
+}
+
+#toggleBut{
+    width: 15%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ff6600;
+    border-radius: 7px;
+    box-sizing: border-box;
+    background-color: #ff6600;
+    color: #d9d9d9;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+#snap {
+    width: 20%;
+    padding: 4px 4px;
+    margin: 2px 0;
+    display: inline-block;
+    border: 1px solid #ff6600;
+    border-radius: 7px;
+    box-sizing: border-box;
+    background-color: #ff6600;
+    color: #d9d9d9;
+    font-size: 13px;
+}
+
+#upload {
+    width: 20%;
+    padding: 4px 4px;
+    margin: 2px 0;
+    display: inline-block;
+    border: 1px solid #ff6600;
+    border-radius: 7px;
+    box-sizing: border-box;
+    background-color: #ff6600;
+    color: #d9d9d9;
+    font-size: 13px;
+}
+
+#formContainer {
+    float: left;
+    width: 100%;
+}
+
+.bot{
+    position: absolute;
+    bottom: 0;
+    padding-top: 5px;
+}
+
+form{
+    color: #cccccc;
+    font-size: 17px;
+    font-weight: 900;
+    text-align: center;
+    float: center;
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+input[type=text], select {
+    width: 30%;
+    padding: 8px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ff6600;
+    border-radius: 7px;
+    box-sizing: border-box;
+    background-color: #d9d9d9;
+    font-size: 16px;
+    font-weight: 800;
+    color: #595959;
+}
+
+input[type=email]{
+    width: 30%;
+    padding: 8px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ff6600;
+    border-radius: 7px;
+    box-sizing: border-box;
+    background-color: #d9d9d9;
+    font-size: 16px;
+    font-weight: 800;
+    color: #595959;
+}
+
+input[type=password]{
+    width: 30%;
+    padding: 8px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ff6600;
+    border-radius: 7px;
+    box-sizing: border-box;
+    background-color: #d9d9d9;
+    font-size: 16px;
+    font-weight: 800;
+    color: #595959;
+}
+
+input[type=number]{
+    width: 30%;
+    padding: 8px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ff6600;
+    border-radius: 7px;
+    box-sizing: border-box;
+    background-color: #d9d9d9;
+    font-size: 16px;
+    font-weight: 800;
+    color: #595959;
+}
+
+input[type=button] {
+    width: 15%;
+    padding: 12px 20px;
+    margin: 4px 0;
+    display: inline-block;
+    border: 1px solid #ff6600;
+    border-radius: 7px;
+    box-sizing: border-box;
+    background-color: #ff6600;
+    color: #d9d9d9;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+input[type=text]:focus{
+    background-color: #f2f2f2;
+    border-width: 4px;
+    outline: 0;
+}
+
+input[type=email]:focus{
+    background-color: #f2f2f2;
+    border-width: 4px;
+    outline: 0;
+}
+
+input[type=password]:focus{
+    background-color: #f2f2f2;
+    border-width: 4px;
+    outline: 0;
+}
+
+input[type=number]:focus{
+    background-color: #f2f2f2;
+    border-width: 4px;
+    outline: 0;
+}
+
+input[type=button]:focus{
+    outline: 0;
+}
+
+input[type=button]:focus{
+    outline: 0;
+}
+
+select:focus{
+    background-color: #f2f2f2;
+    border-width: 4px;
+    outline: 0;
+}
+
+div {
+    width: 100%;
+    text-align: center;
+}
+
+p {
+    color: #b3b3b3;
+    text-align: center;
+}
+
+footer {
+    margin: 8px;
+    height: 30px;
+    width: 40%;
+    display: inline-block;
+    float: bottom;
+}
+
+@media all and (max-width: 480px){
+    input[type=text], select {
+        width: 50%;
+    }
+
+    input[type=email]{
+        width: 50%;
+    }
+
+    input[type=password]{
+        width: 50%;
+    }
+
+    input[type=number]{
+        width: 50%;
+    }
+
+    input[type=submit]{
+        width: 50%;
+    }
+}
+
+@media all and (max-width: 320px){
+    input[type=text], select {
+        width: 70%;
+    }
+
+    input[type=email]{
+        width: 70%;
+    }
+
+    input[type=password]{
+        width: 70%;
+    }
+
+    input[type=number]{
+        width: 70%;
+    }
+
+    input[type=submit]{
+        width: 70%;
+    }
+}
