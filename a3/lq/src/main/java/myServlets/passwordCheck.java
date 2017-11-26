@@ -73,7 +73,6 @@ public class passwordCheck extends HttpServlet {
         PrintWriter out = response.getWriter();
         String value1 = new String();
         String value2 = new String();
-        String ourPattern = "^(?=.*?[a-z,A-Z])(?=.*?[0-9])(?=.*?[~!@#$%^&*-]).{8,10}$";
 
         if (request.getParameter("pass1") != null && request.getParameter("pass2") != null) {
             value1 = request.getParameter("pass1");
@@ -82,19 +81,10 @@ public class passwordCheck extends HttpServlet {
                 response.addHeader("value1", value1);
                 response.addHeader("value2", value2);
             } else {
-                response.addHeader("value1", "");
                 response.setStatus(400);
+                response.addHeader("value1", "");
             }
         }
-        //MAKE PATTERN OPWS STO EMAIL
-        //Pattern pattern = Pattern.compile(ourPattern);
-        //Matcher matcher = pattern.matcher(request.getParameter("pass1"));
-        //boolean result = matcher.matches();
-        //if (!result) {
-        //out.print("match");
-        //} else {
-        //out.print("no match");
-        //}
     }
 
     /**

@@ -4,6 +4,25 @@
  * and open the template in the editor.
  */
 
+function showRegister(){
+    document.getElementById('loginBut').style.display = 'none';
+    document.getElementById('register').style.display = 'none';
+    document.getElementById('modify').style.display = 'none';
+    document.getElementById('formContainer').style.display = 'block';
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('myform').style.display = 'block';
+}
+
+function showLogin(){
+    document.getElementById('loginBut').style.display = 'none';
+    document.getElementById('register').style.display = 'none';
+    document.getElementById('modify').style.display = 'none';
+    document.getElementById('formContainer').style.display = 'block';
+    document.getElementById('myform').style.display = 'none';
+    document.getElementById('loginForm').style.display = 'block';
+    
+}
+
 /*Use this function to let user know that
 there is a missmatch in password input.We change
 the type of the input element with id="pass2"
@@ -28,10 +47,15 @@ function ResetPassword(){
   var passVal2 = document.getElementById('pass2').value;
   if(passVal1 !== passVal2){
     var pass = document.getElementById('pass2');
-    pass.type = "password";
-    pass.value = "";
-    pass.style.color = "#595959";
+    pass.type = 'password';
+    pass.value = '';
+    pass.style.color = '#595959';
   }
+}
+
+function resetField(id){
+    var field = document.getElementById(id);
+    field.value = '';
 }
 
 var map;
@@ -141,6 +165,7 @@ function evalAddress() {
         alert('Address not found');
       }
     });
+    checkRestMandatory();
   }
 }
 
@@ -237,8 +262,20 @@ function moveCanvas(){
   mainDivElement.style.width = "450px";
 }
 
+var USERNAME = false;
+var EMAIL = false;
+var PASS1 = false;
+var PASS2 = false;
+var NAME = false;
+var LASTNAME = false;
+var CITY = false;
+var PROFESSION = false;
+
 function checkUsername(){
     var username = document.getElementById('username').value;
+    
+    USERNAME = false;
+    
     var req = new XMLHttpRequest();
     
     req.onreadystatechange = function(){
@@ -246,8 +283,9 @@ function checkUsername(){
             console.log(req.status);
             console.log(req.readyState);
             document.getElementById('username').value = req.responseText;
+            USERNAME = true;
         }else if(req.readyState === 4 && req.status !== 200){
-            console.log('Request failed. Returned status of ' + req.status + req.responseText);
+            console.log('Request failed. Returned status of ' + req.status + ': ' + req.responseText);
             console.log(req.readyState);
             document.getElementById('username').value = req.responseText;
         }
@@ -260,9 +298,9 @@ function checkUsername(){
 function checkPassword(){
     var pass1 = document.getElementById('pass1').value;
     var pass2 = document.getElementById('pass2').value;
-    var data = new FormData();
-    data.append('pass1', pass1);
-    data.append('pass2', pass2);
+    
+    PASS1 = false;
+    PASS2 = false;
     
     var req = new XMLHttpRequest();
     
@@ -271,11 +309,13 @@ function checkPassword(){
             console.log(req.status);
             console.log(req.readyState);
             //write first parameter of response to pass1, second to pass2
-            console.log(req.getResponseHeader("value1"));
-            console.log(req.getResponseHeader("value2"));
+            //console.log(req.getResponseHeader("value1"));
+            //console.log(req.getResponseHeader("value2"));
             document.getElementById("pass1").value = req.getResponseHeader("value1");
             if(req.getResponseHeader("value1") !== ""){
                 document.getElementById("pass2").value = req.getResponseHeader("value2");
+                PASS1 = true;
+                PASS2 = true;
             }
         }else if(req.readyState === 4 && req.status !== 200){
             console.log('Request failed. Returned status of ' + req.status + req.responseText);
@@ -292,19 +332,323 @@ function checkEmail(){
     var email = document.getElementById('email').value;
     var req = new XMLHttpRequest();
     
+    EMAIL = false;
+    
     req.onreadystatechange = function(){
         if(req.readyState === 4 && req.status === 200){
             console.log(req.status);
             console.log(req.readyState);
             console.log(req.responseText);
             document.getElementById("email").value = req.responseText;
+            EMAIL = true;
         }else if(req.readyState === 4 && req.status !== 200){
             console.log(req.status);
             console.log(req.readyState);
+            console.log(req.responseText);
             document.getElementById("email").value = "Invalid Email Addres";
         }
     };
     req.open('POST', 'emailCheck', true);
     req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     req.send('email=' + email);
+}
+
+function checkRestMandatory(){
+    var name = document.getElementById('name').value;
+    var lastName = document.getElementById('lastName').value;
+    var city = document.getElementById('city').value;
+    var profession = document.getElementById('profession').value;
+    
+    NAME = false;
+    LASTNAME = false;
+    CITY = false;
+    PROFESSION = false;
+    
+    var req = new XMLHttpRequest();
+    //so that we don't put too much overhead to the network
+    if(name !== '' && lastName !== '' && city !== '' && profession !== ''){
+        req.onreadystatechange = function(){
+            if(req.readyState === 4 && req.status === 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                NAME = true;
+                LASTNAME = true;
+                CITY = true;
+                PROFESSION = true;
+            }else if(req.readyState === 4 && req.status !== 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                document.getElementById('name').value = req.getResponseHeader('name');
+                document.getElementById('lastName').value = req.getResponseHeader('lastName');
+                document.getElementById('city').value = req.getResponseHeader('city');
+                document.getElementById('profession').value = req.getResponseHeader('profession');
+            }
+        };
+        req.open('POST', 'checkRestMandatory', true);
+        req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        req.send('name=' + name + '&lastName=' + lastName + '&city=' + city + '&profession=' + profession);
+    }
+}
+
+function register(){
+    if(USERNAME && EMAIL && PASS1 && PASS2 && NAME && LASTNAME && CITY && PROFESSION){
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('pass1').value;
+        var email = document.getElementById('email').value;
+        var name = document.getElementById('name').value;
+        var lastName = document.getElementById('lastName').value;
+        var city = document.getElementById('city').value;
+        var profession = document.getElementById('profession').value;
+        var day = document.getElementById('day').value;
+        var month = document.getElementById('month').name;
+        var year = document.getElementById('year').value;
+        var gender = document.querySelector('input[name="gender"]:checked').value;
+        var country = document.getElementById('country').value;
+        var address = document.getElementById('address').value;
+        var interests = document.getElementById('interests').value;
+        var genInfo = document.getElementById('genInfo').value;
+        
+        var req = new XMLHttpRequest();
+        
+        req.onreadystatechange = function(){
+            if(req.readyState === 4 && req.status === 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.getResponseHeader("result"));
+                hideForm();
+                displayUI(req);
+            }else if(req.readyState === 4 && req.status !== 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.responseText);
+                alert('Error in registration');
+            }
+        };
+        req.open('POST', 'register', true);
+        req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        req.send('username=' + username + '&password=' + password + '&email=' + email + '&name=' + name + '&lastName=' + lastName + '&city=' + city + '&profession=' + profession + '&day=' + day + '&month=' + month + '&year=' + year + '&gender=' + gender + '&country=' + country + '&address=' + address + '&interests=' + interests + '&genInfo=' + genInfo);
+    }
+}
+
+function hideForm(){
+    document.getElementById('myform').style.display = 'none';
+    document.getElementById('map').style.display = 'none';
+    document.getElementById('cameraCont').style.display = 'none';
+}
+
+function hideField(id){
+   var field = document.getElementById(id);
+   field.style.display = 'none';
+}
+
+function displayUI(req){
+    //display registration success msg
+    container = document.getElementById('container');
+    msgContainer = document.createElement('div');
+    msgContainer.setAttribute('id', 'msgContainer');
+    msgContainer.style.display = 'block';
+    container.appendChild(msgContainer);
+    confirmMsg = document.createElement('P');
+    confirmMsg.setAttribute('id', 'confMsg');
+    text = document.createTextNode(req.responseText);
+    confirmMsg.appendChild(text);
+    okButton = document.createElement('button');
+    okButton.setAttribute('id' , 'okButton');
+    okButton.setAttribute('onclick' , 'hideField("msgContainer")');
+    butMsg = document.createTextNode('OK');
+    okButton.appendChild(butMsg);
+    msgContainer.appendChild(confirmMsg);
+    msgContainer.appendChild(okButton);
+    
+    //display user info
+    infoTable = document.createElement('table');
+    infoTable.setAttribute('id', 'infoTable');
+    container.appendChild(infoTable);
+    
+    title = document.createElement('tr');
+    infoTable.appendChild(title);
+    titleT = document.createElement('th');
+    titleV = document.createTextNode("User Info");
+    titleT.appendChild(titleV);
+    title.appendChild(titleT);
+    
+    username = document.createElement('tr');
+    infoTable.appendChild(username);
+    usernameT = document.createElement('td');
+    usernameV = document.createTextNode(req.getResponseHeader("username"));
+    usernameT.appendChild(usernameV);
+    username.appendChild(usernameT);
+    
+    email = document.createElement('tr');
+    infoTable.appendChild(email);
+    emailT = document.createElement('td');
+    emailV = document.createTextNode(req.getResponseHeader("email"));
+    emailT.appendChild(emailV);
+    email.appendChild(emailT);
+    
+    hisname = document.createElement('tr');
+    infoTable.appendChild(hisname);
+    hisnameT = document.createElement('td');
+    hisnameV = document.createTextNode(req.getResponseHeader("name"));
+    hisnameT.appendChild(hisnameV);
+    hisname.appendChild(hisnameT);
+    
+    lastname = document.createElement('tr');
+    infoTable.appendChild(lastname);
+    lastnameT = document.createElement('td');
+    lastnameV = document.createTextNode(req.getResponseHeader("lastname"));
+    lastnameT.appendChild(lastnameV);
+    lastname.appendChild(lastnameT);
+    
+    birthdate = document.createElement('tr');
+    infoTable.appendChild(birthdate);
+    birthdateT = document.createElement('td');
+    birthdateV = document.createTextNode(req.getResponseHeader("birthdate"));
+    birthdateT.appendChild(birthdateV);
+    birthdate.appendChild(birthdateT);
+    
+    country = document.createElement('tr');
+    infoTable.appendChild(country);
+    countryT = document.createElement('td');
+    countryV = document.createTextNode(req.getResponseHeader("country"));
+    countryT.appendChild(countryV);
+    country.appendChild(countryT);
+    
+    city = document.createElement('tr');
+    infoTable.appendChild(city);
+    cityT = document.createElement('td');
+    cityV = document.createTextNode(req.getResponseHeader("city"));
+    cityT.appendChild(cityV);
+    city.appendChild(cityT);
+    
+    address = document.createElement('tr');
+    infoTable.appendChild(address);
+    addressT = document.createElement('td');
+    addressV = document.createTextNode(req.getResponseHeader("address"));
+    addressT.appendChild(addressV);
+    address.appendChild(addressT);
+    
+    profession = document.createElement('tr');
+    infoTable.appendChild(profession);
+    professionT = document.createElement('td');
+    professionV = document.createTextNode(req.getResponseHeader("profession"));
+    professionT.appendChild(professionV);
+    profession.appendChild(professionT);
+    
+    gender = document.createElement('tr');
+    infoTable.appendChild(gender);
+    genderT = document.createElement('td');
+    genderV = document.createTextNode(req.getResponseHeader("gender"));
+    genderT.appendChild(genderV);
+    gender.appendChild(genderT);
+    
+    if(req.getResponseHeader("genInfo") !== ""){
+        interests = document.createElement('tr');
+        infoTable.appendChild(interests);
+        interestsT = document.createElement('td');
+        interestsV = document.createTextNode(req.getResponseHeader("interests"));
+        interestsT.appendChild(interestsV);
+        interests.appendChild(interestsT);
+    }
+    
+    if(req.getResponseHeader("genInfo") !== ""){
+        genInfo = document.createElement('tr');
+        infoTable.appendChild(genInfo);
+        genInfoT = document.createElement('td');
+        genInfoV = document.createTextNode(req.getResponseHeader("genInfo"));
+        genInfoT.appendChild(genInfoV);
+        genInfo.appendChild(genInfoT);
+    }
+    
+    document.getElementById('logout').style.display = 'block';
+    document.getElementById('modify').style.display = 'block';
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('register').style.display = 'none';
+    //set visible ta koumpakia ths arxikhs selidas
+}
+
+function hideUI(){
+    //teerminate these two
+    document.getElementById('msgContainer').outerHTML = "";
+    document.getElementById('infoTable').outerHTML = "";
+    //hide these four
+    document.getElementById('modify').style.display = 'none';
+    document.getElementById('logout').style.display = 'none';
+    document.getElementById('register').style.display = 'block';
+    document.getElementById('loginBut').style.display = 'block';
+}
+
+function login(){
+    var username = document.getElementById('loginUsername').value;
+    var password = document.getElementById('loginPass').value;
+    
+    if(username !== "" && password !== ""){
+        var req = new XMLHttpRequest();
+        
+        req.onreadystatechange = function(){
+            if(req.readyState === 4 && req.status === 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.getResponseHeader("result"));
+                displayUI(req);
+            }else if(req.readyState === 4 && req.status !== 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.responseText);
+                //empty password input box 
+                document.getElementById('loginPass').value = '';
+            }
+        };
+        req.open('POST', 'login', true);
+        req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        req.send('username=' + username + '&password=' + password);
+    }
+}
+
+function checkActiveSession(){
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function(){
+            if(req.readyState === 4 && req.status === 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                //if success, servlet says we are already logged in so we display UI
+                console.log(req.getResponseHeader("result"));
+                displayUI(req);
+            }else if(req.readyState === 4 && req.status !== 200){
+                //else we just normaly display our page
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.getResponseHeader("result"));
+            }
+        };
+        req.open('POST', 'checkState', true);
+        req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        req.send();
+}
+
+function logout(){
+    username = 'user';
+    password = 'pass';
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function(){
+        if(req.readyState === 4 && req.status === 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+            hideUI();
+        }else if(req.readyState === 4 && req.status !== 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        }
+    };
+    req.open('POST', 'logout', true);
+    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    req.send();
+}
+
+function changeInfo(){
+    return;
 }

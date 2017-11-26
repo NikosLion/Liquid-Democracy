@@ -5,21 +5,19 @@
  */
 package myServlets;
 
-import gr.csd.uoc.cs359.winter2017.lq.db.UserDB;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Fouteros
  */
-public class usernameCheck extends HttpServlet {
+public class logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +36,10 @@ public class usernameCheck extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet usernameCheck</title>");
+            out.println("<title>Servlet logout</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet usernameCheck at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet logout at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,27 +71,18 @@ public class usernameCheck extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
         PrintWriter out = response.getWriter();
-        try {
-            if (request.getParameter("username") != null) {
-                if (request.getParameter("username").length() < 8) {
-                    response.setStatus(400);
-                    out.print("Username too short");
-                    return;
-                }
-                Boolean isValid = UserDB.checkValidUserName(request.getParameter("username"));
-                if (!isValid) {//returns false if username exists
-                    response.setStatus(400);
-                    out.print("Username exists");
-                } else {
-                    out.print(request.getParameter("username"));
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(usernameCheck.class.getName()).log(Level.SEVERE, null, ex);
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            response.setStatus(400);
+            out.print("Logout failed");
+        } else {
+            out.print("Logged out.Goodbye " + session.getAttribute("username"));
+            session.invalidate();
         }
     }
+
     /**
      * Returns a short description of the servlet.
      *

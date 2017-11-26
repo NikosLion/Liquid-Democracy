@@ -5,8 +5,11 @@
  */
 package myServlets;
 
+import static gr.csd.uoc.cs359.winter2017.lq.db.UserDB.checkValidEmail;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -83,7 +86,16 @@ public class emailCheck extends HttpServlet {
         }
 
         if (result) {
-            out.print(email);
+            try {
+                if (checkValidEmail(email)) {
+                    out.print(email);
+                } else {
+                    response.setStatus(400);
+                    out.print("email in use");
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(emailCheck.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             response.setStatus(400);
         }
