@@ -82,9 +82,35 @@ public class register extends HttpServlet {
         try {
             if (UserDB.checkValidUserName(request.getParameter("username"))) {
                 if (checkValidEmail(request.getParameter("email"))) {
+                    // if request.getParameter("update") != null
+                    // && request.getParameter("update").equals("update")
+                    // do update and return
+                    /*if (isUpdate != null && isUpdate.equals("update")) {
+                        araujo = initUser(araujo, request);
+                        updateUser(araujo);
+                        if (UserDB.checkValidUserName(araujo.getUserName())) {
+                            response.setStatus(400);
+                            out.print("Error updating user data.");
+                        } else {
+                            //get active session
+                            HttpSession session = request.getSession(false);
+                            if (session != null) {
+                                //update session info with current values
+                                session.setAttribute("username", araujo.getUserName());
+                                session.setAttribute("password", araujo.getPassword());
+                                //set up headers according to the changes that the user made
+                                response = setupRespHeaders(response, araujo);
+                                response.setHeader("result", araujo.getUserName() + " has updated his info");
+                                response.setHeader("activeUser", araujo.getUserName());
+                                response.setHeader("activeEmail", araujo.getEmail());
+                            }
+                        }
+                        return;
+                    }*/
                     // Add araujo to database
                     araujo = initUser(araujo, request);
                     UserDB.addUser(araujo);
+                    //check that user was succesfully added to DB
                     if (UserDB.checkValidUserName(araujo.getUserName())) {
                         response.setStatus(400);
                         out.print("Error in registration.Try again");
@@ -93,10 +119,13 @@ public class register extends HttpServlet {
                         synchronized (session) {
                             session.setAttribute("username", araujo.getUserName());
                             session.setAttribute("password", araujo.getPassword());
+                            //session.setAttribute("", out);
                             session.setMaxInactiveInterval(-1);
                         }
                         response = setupRespHeaders(response, araujo);
                         response.setHeader("result", araujo.getUserName() + " is now on Liquid");
+                        response.setHeader("activeUser", araujo.getUserName());
+                        response.setHeader("activeEmail", araujo.getEmail());
                     }
                 }
             } else {

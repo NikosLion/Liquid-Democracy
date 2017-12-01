@@ -32,6 +32,14 @@
         <servlet-name>logout</servlet-name>
         <servlet-class>myServlets.logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>updateUser</servlet-name>
+        <servlet-class>myServlets.updateUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getAllUsers</servlet-name>
+        <servlet-class>myServlets.getAllUsers</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>usernameCheck</servlet-name>
         <url-pattern>/usernameCheck</url-pattern>
@@ -63,6 +71,14 @@
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateUser</servlet-name>
+        <url-pattern>/updateUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getAllUsers</servlet-name>
+        <url-pattern>/getAllUsers</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

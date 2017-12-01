@@ -19,7 +19,8 @@
             <button id="loginBut" type="button" onclick="showLogin()">Log In</button>
             <button id="register" type="button" onclick="showRegister()">Register</button>
             <button id="logout" type="button" onclick="logout()">Log out</button>
-            <button id="modify" type="button" onclick="changeInfo()">Modify</button>
+            <button id="modify" type="button" onclick="showForm()">Modify</button>
+            <button id='showAllUsers' type='button' onclick="showUsers()">Show Users</button>
             <div id="map"></div>
             <div id="cameraCont">
                 <video id='video' width='450' height='400' autoplay></video>
@@ -363,7 +364,7 @@
                     <input id='interests' type="text" name="Interests" maxlength="100"><br>
                     <label for='genInfo'>General information<br></label>
                     <input id='genInfo' type="text" name="GnrlInfo" maxlength="500"><br>
-                    <input type='button' value='Sign Up' onclick="register()">
+                    <input id='signup' type='button' value='Sign Up' onclick="register()">
                 </form>
             </div>
             <div class="bot">

@@ -53,9 +53,31 @@ h3 {
     top: 58px;
 }
 
+#backFromModify {
+    display: none;
+    position: absolute;
+    left: 20px;
+    top: 22px;
+}
+
+#showAllUsers {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 115px;
+}
+
 #register {
     position: absolute;
     right: 230px;
+}
+
+ul {
+    position: absolute;
+    top: 115px;
+    left: 250px;
+    font-size: 25px;
+    color: #d9d9d9;
 }
 
 #map {
@@ -282,7 +304,7 @@ button{
     outline: 0;
 }
 
-table, td, th {    
+td, th {    
     border-bottom: 3px solid #ff6600;
     text-align: left;
 }

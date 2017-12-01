@@ -262,6 +262,9 @@ function moveCanvas(){
   mainDivElement.style.width = "450px";
 }
 
+//These globals indicate if the values inside the
+//corresponding DOM elements are of valid state in
+//order to pass them to register() or updateUSER()
 var USERNAME = false;
 var EMAIL = false;
 var PASS1 = false;
@@ -270,9 +273,34 @@ var NAME = false;
 var LASTNAME = false;
 var CITY = false;
 var PROFESSION = false;
+//check if the action is just an update of user's fields
+//in checkUsername(), checkEmail().
+var isModify = false;
+var activeUser = "";
+//do the same in checkEmail as in checkUsername
+var activeEmail = "";
+
+function getCookie(cname) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
 
 function checkUsername(){
     var username = document.getElementById('username').value;
+    activeUser = getCookie(username);
+    console.log(activeUser);
+    //check isModify(user updates his/her information)
+    //check if the input from the form matches the user that is already logged in
+    //if so, no need to checkUsername() because it is already valid for this user.
+    if(isModify && activeUser === username){
+        return;
+    }
     
     USERNAME = false;
     
@@ -320,7 +348,8 @@ function checkPassword(){
         }else if(req.readyState === 4 && req.status !== 200){
             console.log('Request failed. Returned status of ' + req.status + req.responseText);
             console.log(req.readyState);
-            document.getElementById("pass1").value = req.getResponseHeader("value1");
+            document.getElementById('pass1').value = '';
+            document.getElementById('pass2').value = '';
         }
     };
     req.open('POST', 'passwordCheck', true);
@@ -330,6 +359,12 @@ function checkPassword(){
 
 function checkEmail(){
     var email = document.getElementById('email').value;
+    activeEmail = getCookie(email);
+    
+    if(isModify && activeEmail === email){
+        return;
+    }
+    
     var req = new XMLHttpRequest();
     
     EMAIL = false;
@@ -415,6 +450,14 @@ function register(){
                 console.log(req.status);
                 console.log(req.readyState);
                 console.log(req.getResponseHeader("result"));
+                activeUser = req.getResponseHeader("activeUser");
+                activeEmail = req.getResponseHeader("activeEmail");
+                //new
+                document.cookie = 'username='+activeUser;
+                document.cookie = 'email='+activeEmail;
+                console.log(activeUser);
+                console.log(activeEmail);
+                console.log(document.cookie);
                 hideForm();
                 displayUI(req);
             }else if(req.readyState === 4 && req.status !== 200){
@@ -562,6 +605,7 @@ function displayUI(req){
     
     document.getElementById('logout').style.display = 'block';
     document.getElementById('modify').style.display = 'block';
+    document.getElementById('showAllUsers').style.display = 'block';
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('register').style.display = 'none';
     //set visible ta koumpakia ths arxikhs selidas
@@ -574,8 +618,13 @@ function hideUI(){
     //hide these four
     document.getElementById('modify').style.display = 'none';
     document.getElementById('logout').style.display = 'none';
+    document.getElementById('showAllUsers').style.display = 'none';
     document.getElementById('register').style.display = 'block';
     document.getElementById('loginBut').style.display = 'block';
+    userlist = document.getElementById('userlist');
+    if(userlist !== null){
+        userlist.outerHTML = '';
+    }
 }
 
 function login(){
@@ -590,6 +639,14 @@ function login(){
                 console.log(req.status);
                 console.log(req.readyState);
                 console.log(req.getResponseHeader("result"));
+                activeUser = req.getResponseHeader("activeUser");
+                activeEmail = req.getResponseHeader("activeEmail");
+                //new
+                document.cookie = 'username='+activeUser;
+                document.cookie = 'email='+activeEmail;
+                console.log(activeUser);
+                console.log(activeEmail);
+                console.log(document.cookie);
                 displayUI(req);
             }else if(req.readyState === 4 && req.status !== 200){
                 console.log(req.status);
@@ -637,6 +694,12 @@ function logout(){
             console.log(req.status);
             console.log(req.readyState);
             console.log(req.responseText);
+            activeUser = '';
+            activeEmail = '';
+            //new
+            document.cookie = 'username='+activeUser;
+            document.cookie = 'email='+activeEmail;
+            console.log(document.cookie);
             hideUI();
         }else if(req.readyState === 4 && req.status !== 200){
             console.log(req.status);
@@ -649,6 +712,141 @@ function logout(){
     req.send();
 }
 
-function changeInfo(){
-    return;
+function showForm(){
+    //we are modifying user's field after this method
+    isModify = true;
+    console.log("isModify: " + isModify + " activeUser: " + activeUser);
+    //hide msgContainer,infoTable,modify,logout,login
+    document.getElementById('msgContainer').style.display = 'none';
+    document.getElementById('infoTable').style.display = 'none';
+    document.getElementById('modify').style.display = 'none';
+    document.getElementById('logout').style.display = 'none';
+    document.getElementById('loginBut').style.display = 'none';
+    document.getElementById('showAllUsers').style.display = 'none';
+    userlist = document.getElementById('userlist');
+    if(userlist !== null){
+        userlist.outerHTML = '';
+    }
+    //show form
+    container = document.getElementById('formContainer');
+    container.style.display = 'block';
+    //hide signup button of original form
+    document.getElementById('signup').style.display = 'none';
+    //make new ok button for submiting the new fields
+    document.getElementById('myform').style.display = 'block';
+    okButton = document.createElement('button');
+    container.appendChild(okButton);
+    okButton.setAttribute('id', 'okModifier');
+    okButton.setAttribute('onclick', 'updateUser()');
+    okMsg = document.createTextNode('OK');
+    okButton.appendChild(okMsg);
+    backButton = document.createElement('button');
+    container.appendChild(backButton);
+    backButton.setAttribute('id', 'backFromModify');
+    backButton.setAttribute('onclick', 'restoreUIfromModify()');
+    backButton.style.display = 'block';
+    backMsg = document.createTextNode('Back');
+    backButton.appendChild(backMsg);
+}
+
+function restoreUIfromModify(){
+    console.log('restoring');
+    isModify = false;
+    document.getElementById('infoTable').style.display = 'block';
+    document.getElementById('modify').style.display = 'block';
+    document.getElementById('logout').style.display = 'block';
+    document.getElementById('loginBut').style.display = 'block';
+    document.getElementById('showAllUsers').style.display = 'block';
+    document.getElementById('formContainer').style.display = 'none';
+    document.getElementById('myform').style.display = 'none';
+    document.getElementById('okModifier').outerHTML = '';
+    document.getElementById('backFromModify').outerHTML = '';
+    console.log('restored');
+}
+
+function updateUser(){
+    //send request to updateUser with parameter update == "update"
+    //restore page to UI, both after success and failure
+    //hide myform, okModifier
+    //show infotable,modify,logout,showAllUsers
+    console.log("USERNAME: " + USERNAME + " EMAIL: " + EMAIL);
+    /*if(USERNAME && EMAIL && PASS1 && PASS2 && NAME && LASTNAME && CITY && PROFESSION){
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('pass1').value;
+        var email = document.getElementById('email').value;
+        var name = document.getElementById('name').value;
+        var lastName = document.getElementById('lastName').value;
+        var city = document.getElementById('city').value;
+        var profession = document.getElementById('profession').value;
+        var day = document.getElementById('day').value;
+        var month = document.getElementById('month').name;
+        var year = document.getElementById('year').value;
+        var gender = document.querySelector('input[name="gender"]:checked').value;
+        var country = document.getElementById('country').value;
+        var address = document.getElementById('address').value;
+        var interests = document.getElementById('interests').value;
+        var genInfo = document.getElementById('genInfo').value;
+        var update = "update";
+        
+        var req = new XMLHttpRequest();
+        
+        req.onreadystatechange = function(){
+            if(req.readyState === 4 && req.status === 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.getResponseHeader("result"));
+                activeUser = req.getResponseHeader("newUsername");
+                activeEmail = req.getResponseHeader("newEmail");
+                console.log(activeUser);
+                console.log(activeEmail);
+                hideForm();
+                document.getElementById('okModifier').outerHTML = '';
+                displayUI(req);
+            }else if(req.readyState === 4 && req.status !== 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.responseText);
+            }
+        };
+        req.open('POST', 'updateUser', true);
+        req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        req.send('username=' + username + '&password=' + password + '&email=' + email + '&name=' + name + '&lastName=' + lastName + '&city=' + city + '&profession=' + profession + '&day=' + day + '&month=' + month + '&year=' + year + '&gender=' + gender + '&country=' + country + '&address=' + address + '&interests=' + interests + '&genInfo=' + genInfo);
+    }*/
+}
+
+function showUsers(){
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function(){
+        if(req.readyState === 4 && req.status === 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            displayUsersList(req);
+        }else if(req.readyState === 4 && req.status !== 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        }
+    };
+    req.open('POST', 'getAllUsers', true);
+    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    req.send();
+}
+
+function displayUsersList(req){
+    var i = 0;
+    if(req.getResponseHeader('user' + i) !== null){
+        userList = document.createElement('ul');
+        userList.setAttribute('id', 'userlist');
+        while(req.getResponseHeader('user' + i) !== null){
+            name = req.getResponseHeader('user' + i);
+            useri = document.createElement('li');
+            userList.appendChild(useri);
+            useriName = document.createTextNode(name);
+            useri.appendChild(useriName);
+            document.getElementById('container').appendChild(userList);
+            ++i;
+        }
+        
+    }
 }
