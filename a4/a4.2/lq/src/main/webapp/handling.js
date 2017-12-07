@@ -8,6 +8,7 @@ function showRegister(){
     document.getElementById('loginBut').style.display = 'none';
     document.getElementById('register').style.display = 'none';
     document.getElementById('modify').style.display = 'none';
+    document.getElementById('initiatives').style.display = 'none';
     document.getElementById('formContainer').style.display = 'block';
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('myform').style.display = 'block';
@@ -17,6 +18,7 @@ function showLogin(){
     document.getElementById('loginBut').style.display = 'none';
     document.getElementById('register').style.display = 'none';
     document.getElementById('modify').style.display = 'none';
+    document.getElementById('initiatives').style.display = 'none';
     document.getElementById('formContainer').style.display = 'block';
     document.getElementById('myform').style.display = 'none';
     document.getElementById('loginForm').style.display = 'block';
@@ -605,6 +607,7 @@ function displayUI(req){
     
     document.getElementById('logout').style.display = 'block';
     document.getElementById('modify').style.display = 'block';
+    document.getElementById('initiatives').style.display = 'block';
     document.getElementById('showAllUsers').style.display = 'block';
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('register').style.display = 'none';
@@ -617,6 +620,7 @@ function hideUI(){
     document.getElementById('infoTable').outerHTML = "";
     //hide these four
     document.getElementById('modify').style.display = 'none';
+    document.getElementById('initiatives').style.display = 'none';
     document.getElementById('logout').style.display = 'none';
     document.getElementById('showAllUsers').style.display = 'none';
     document.getElementById('register').style.display = 'block';
@@ -720,6 +724,7 @@ function showForm(){
     document.getElementById('msgContainer').style.display = 'none';
     document.getElementById('infoTable').style.display = 'none';
     document.getElementById('modify').style.display = 'none';
+    document.getElementById('initiatives').style.display = 'none';
     document.getElementById('logout').style.display = 'none';
     document.getElementById('loginBut').style.display = 'none';
     document.getElementById('showAllUsers').style.display = 'none';
@@ -754,6 +759,7 @@ function restoreUIfromModify(){
     isModify = false;
     document.getElementById('infoTable').style.display = 'block';
     document.getElementById('modify').style.display = 'block';
+    document.getElementById('initiatives').style.display = 'block';
     document.getElementById('logout').style.display = 'block';
     document.getElementById('loginBut').style.display = 'block';
     document.getElementById('showAllUsers').style.display = 'block';
@@ -849,4 +855,59 @@ function displayUsersList(req){
         }
         
     }
+}
+
+function showInitiativeUI(){
+    var container = document.getElementById('container');
+    var initiativeHTML = '<button id="createInitiative" type="button" onclick="createInitiativeForm()">Create</button>\n\
+                          <button id="showOwn" type="button" onclick="showOwnInitiatives()">Show Mine</button>\n\
+                          <button id="getActive" type="button" onclick="getActiveInitiatives()">Active</button>\n\
+                          <button id="back" type="button" onclick="showUserUI()">Back</button>';
+    container.innerHTML = initiativeHTML;
+}
+
+function createInitiativeForm(){
+    var container = document.getElementById('container');
+    var initiativeFormHTML = '<button id="createInitiative" type="button" onclick="createInitiativeForm()">Create</button>\n\
+    <button id="showOwn" type="button" onclick="showOwnInitiatives()">Show Mine</button>\n\
+    <button id="getActive" type="button" onclick="getActiveInitiatives()">Active</button>\n\
+    <button id="back" type="button" onclick="showUserUI()">Back</button>\n\
+    <div id="formContainer">\n\
+        <form id="initiativeForm">\n\
+            <label for="Title">Title<br></label>\n\
+            <input id="Title" type="text" value="" required><br>\n\
+            <label for="Category">Category<br></label>\n\
+            <input id="Category" type="text" value="" required><br>\n\
+            <label for="Description">Description<br></label>\n\
+            <input id="Description" type="textarea" value="" required><br>\n\
+            <input id="Submit" type="button" value="Submit" onclick="createInitiative()"></button>\n\
+        </form>\n\
+    </div>';
+    container.innerHTML = initiativeFormHTML;
+}
+
+function createInitiative(){
+    var title = document.getElementById('Title').value;
+    var category = document.getElementById('Category').value;
+    var description = document.getElementById('Description').value;
+    var creator = activeUser;
+    //test
+    console.log(creator);
+    
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function(){
+            if(req.readyState === 4 && req.status === 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.responseText);
+            }else if(req.readyState === 4 && req.status !== 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.responseText);
+            }
+    };
+    req.open('POST', 'createInitiative', true);
+    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    req.send('creator=' + creator + '&title=' + title + '&category=' + category + '&description=' + description);
 }
