@@ -57,8 +57,8 @@ public class getActiveInitiatives extends HttpServlet {
                 out.println("<h4>" + activeInitiatives.get(i).getCreator() + "</h4>");
                 //EDW THELW TWRA 2 BUTTONS GIA TO VOTE 
                 //EDW TO ATTRIBUTE GIA NA PAIRNOUME TO NAME AFTOU POU PSIFIZEI
-                out.println("<button id='upvote' type='button' onclick='VoteInitiative('upvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("username") + ")'>upvode</button>");//isws na to kanoume apo js ta buttons gia to vote
-                out.println("<button id='downvote' type='button' onclick='VoteInitiative('downvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("username") + ")'>downvote</button>");
+                out.println("<button id='upvote' type='button' onclick='VoteInitiative('upvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>upvode</button>");//isws na to kanoume apo js ta buttons gia to vote
+                out.println("<button id='downvote' type='button' onclick='VoteInitiative('downvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>downvote</button>");
             }
             out.println("</body>");
             out.println("</html>");
