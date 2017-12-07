@@ -911,3 +911,30 @@ function createInitiative(){
     req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     req.send('creator=' + creator + '&title=' + title + '&category=' + category + '&description=' + description);
 }
+
+function getActiveInitiatives(){
+    var username = activeUser;
+    
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function(){
+            if(req.readyState === 4 && req.status === 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                var container = document.getElementById('container');
+                var activeInitiativesHTML = req.responseText;
+                container.innerHTML = activeInitiativesHTML;
+            }else if(req.readyState === 4 && req.status !== 200){
+                console.log(req.status);
+                console.log(req.readyState);
+                console.log(req.responseText);
+            }
+    };
+    req.open('POST', 'getActiveInitiatives', true);
+    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    req.send('username=' + username);
+}
+
+function VoteInitiative(vote, title, username){
+    return;
+}

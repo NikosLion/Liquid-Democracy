@@ -48,16 +48,16 @@ public class getActiveInitiatives extends HttpServlet {
             out.println("<h2>Users</h2>");
             for (int i = 0; i < activeInitiatives.size(); i++) {
                 out.println("<h2>Title</h2>");
-                out.println("<h3>" + activeInitiatives.get(i).getTitle() + "</h3>");
+                out.println("<p>" + activeInitiatives.get(i).getTitle() + "</p>");
                 out.println("<h2>Category</h2>");
-                out.println("<h3>" + activeInitiatives.get(i).getCategory() + "</h3>");
+                out.println("<p>" + activeInitiatives.get(i).getCategory() + "</p>");
                 out.println("<h2>Description</h2>");
-                out.println("<h3>" + activeInitiatives.get(i).getDescription() + "</h3>");
+                out.println("<p>" + activeInitiatives.get(i).getDescription() + "</p>");
                 out.println("<h3>Creator</h3>");
-                out.println("<h4>" + activeInitiatives.get(i).getCreator() + "</h4>");
+                out.println("<p>" + activeInitiatives.get(i).getCreator() + "</p>");
                 //EDW THELW TWRA 2 BUTTONS GIA TO VOTE 
                 //EDW TO ATTRIBUTE GIA NA PAIRNOUME TO NAME AFTOU POU PSIFIZEI
-                out.println("<button id='upvote' type='button' onclick='VoteInitiative('upvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>upvode</button>");//isws na to kanoume apo js ta buttons gia to vote
+                out.println("<button id='upvote' type='button' onclick='VoteInitiative('upvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>upvote</button>");//isws na to kanoume apo js ta buttons gia to vote
                 out.println("<button id='downvote' type='button' onclick='VoteInitiative('downvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>downvote</button>");
             }
             out.println("</body>");
