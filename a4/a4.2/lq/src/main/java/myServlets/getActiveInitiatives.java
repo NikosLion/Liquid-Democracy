@@ -34,18 +34,37 @@ public class getActiveInitiatives extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try {
+            List<Initiative> activeInitiatives = InitiativeDB.getInitiativesWithStatus(1);
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet getActiveInitiatives</title>");
+            out.println("<title>Active Initiatives:</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet getActiveInitiatives at " + request.getContextPath() + "</h1>");
+            out.println("<h2>Users</h2>");
+            for (int i = 0; i < activeInitiatives.size(); i++) {
+                out.println("<h2>Title</h2>");
+                out.println("<h3>" + activeInitiatives.get(i).getTitle() + "</h3>");
+                out.println("<h2>Category</h2>");
+                out.println("<h3>" + activeInitiatives.get(i).getCategory() + "</h3>");
+                out.println("<h2>Description</h2>");
+                out.println("<h3>" + activeInitiatives.get(i).getDescription() + "</h3>");
+                out.println("<h3>Creator</h3>");
+                out.println("<h4>" + activeInitiatives.get(i).getCreator() + "</h4>");
+                //EDW THELW TWRA 2 BUTTONS GIA TO VOTE 
+                //EDW TO ATTRIBUTE GIA NA PAIRNOUME TO NAME AFTOU POU PSIFIZEI
+                out.println("<button id='upvote' type='button' onclick='VoteInitiative('upvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("username") + ")'>upvode</button>");//isws na to kanoume apo js ta buttons gia to vote
+                out.println("<button id='downvote' type='button' onclick='VoteInitiative('downvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("username") + ")'>downvote</button>");
+            }
             out.println("</body>");
             out.println("</html>");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(getActiveInitiatives.class.getName()).log(Level.SEVERE, null, ex);
+            response.setStatus(400);
         }
     }
 
@@ -75,13 +94,7 @@ public class getActiveInitiatives extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            List<Initiative> activeInitiatives = InitiativeDB.getInitiativesWithStatus(1);
-            //TWRA EDW PREPEI NA TA GURIZOUME ME KAPOIO TROPO STO FRONT END EITE ME HEADER EITE ALLIWS(MALLON ALLIWS)
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(getActiveInitiatives.class.getName()).log(Level.SEVERE, null, ex);
-            response.setStatus(400);
-        }
+        processRequest(request, response);
     }
 
     /**

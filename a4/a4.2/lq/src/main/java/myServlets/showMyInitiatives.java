@@ -10,7 +10,6 @@ import gr.csd.uoc.cs359.winter2017.lq.model.Initiative;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -35,18 +34,34 @@ public class showMyInitiatives extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try {
+            String username = request.getParameter("creator");//same as the username... maybe can get it from session if we want to
+            List<Initiative> allInitiatives = InitiativeDB.getInitiatives(username);
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet showMyInitiatives</title>");            
+            out.println("<title>Active Initiatives:</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet showMyInitiatives at " + request.getContextPath() + "</h1>");
+            out.println("<h2>Users</h2>");
+            for (int i = 0; i < allInitiatives.size(); i++) {
+                out.println("<h2>Title</h2>");
+                out.println("<h3>" + allInitiatives.get(i).getTitle() + "</h3>");
+                out.println("<h2>Category</h2>");
+                out.println("<h3>" + allInitiatives.get(i).getCategory() + "</h3>");
+                out.println("<h2>Description</h2>");
+                out.println("<h3>" + allInitiatives.get(i).getDescription() + "</h3>");
+                out.println("<h3>Creator</h3>");
+                out.println("<h4>" + allInitiatives.get(i).getCreator() + "</h4>");
+            }
             out.println("</body>");
             out.println("</html>");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(showMyInitiatives.class.getName()).log(Level.SEVERE, null, ex);
+            response.setStatus(400);
         }
     }
 
@@ -76,18 +91,7 @@ public class showMyInitiatives extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ListIterator<Initiative> iterator = null;
-        try {
-            String username = request.getParameter("username");
-            List<Initiative> allInitiatives = InitiativeDB.getInitiatives(username);
-            iterator = allInitiatives.listIterator();
-            while (iterator.hasNext()) {
-                response.setHeader("initiativetitle" + Integer.toString(iterator.nextIndex()), iterator.next().getTitle());
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(showMyInitiatives.class.getName()).log(Level.SEVERE, null, ex);
-            response.setStatus(400);
-        }
+        processRequest(request, response);
     }
 
     /**

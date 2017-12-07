@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,18 +37,36 @@ public class createInitiative extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet createInitiative</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet createInitiative at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        boolean initiativeExists = false;
+        PrintWriter out = response.getWriter();
+        try {
+            String initiativeTitle = request.getParameter("title");
+            List<Initiative> allInitiatives = InitiativeDB.getAllInitiatives();
+            for (int i = 0; i < allInitiatives.size(); i++) {
+                if (allInitiatives.get(i).getTitle().equals(initiativeTitle)) {
+                    initiativeExists = true;
+                }
+            }
+            if (initiativeExists == false) {//If initiative does not already exist
+                Initiative newInitiative = new Initiative();
+                newInitiative.setCreator(request.getParameter("creator"));//Creator is the same thing as username
+                newInitiative.setDescription(request.getParameter("description"));
+                newInitiative.setCategory(request.getParameter("category"));
+                newInitiative.setTitle(request.getParameter("title"));
+                newInitiative.setStatus(0);//Default status to inactive
+                //SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date expdate = setExpirationDate(request);
+                newInitiative.setExpires(expdate);
+                InitiativeDB.addInitiative(newInitiative);
+                RequestDispatcher rd = request.getRequestDispatcher("showMyInitiatives");//AFTER THE INITIATIVE IS CREATED WE CALL THE showMyInitiatives SERVLET
+                rd.forward(request, response);
+            } else {
+                response.setStatus(400);
+                out.print("Initiative Already exists");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(createInitiative.class.getName()).log(Level.SEVERE, null, ex);
+            response.setStatus(400);
         }
     }
 
@@ -77,35 +96,7 @@ public class createInitiative extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        boolean initiativeExists = false;
-        PrintWriter out = response.getWriter();
-        try {
-            String initiativeTitle = request.getParameter("title");
-            List<Initiative> allInitiatives = InitiativeDB.getAllInitiatives();
-            for (int i = 0; i < allInitiatives.size(); i++) {
-                if (allInitiatives.get(i).getTitle().equals(initiativeTitle)) {
-                    initiativeExists = true;
-                }
-            }
-            if (initiativeExists == false) {//If initiative does not already exist
-                Initiative newInitiative = new Initiative();
-                newInitiative.setCreator(request.getParameter("creator"));
-                newInitiative.setDescription(request.getParameter("description"));
-                newInitiative.setCategory(request.getParameter("category"));
-                newInitiative.setTitle(request.getParameter("title"));
-                newInitiative.setStatus(0);//Default status to inactive
-                //SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                Date expdate = setExpirationDate(request);
-                newInitiative.setExpires(expdate);
-                InitiativeDB.addInitiative(newInitiative);
-            } else {
-                response.setStatus(400);
-                out.print("Initiative Already exists");
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(createInitiative.class.getName()).log(Level.SEVERE, null, ex);
-            response.setStatus(400);
-        }
+        processRequest(request, response);
     }
 
     private Date setExpirationDate(HttpServletRequest request) {
