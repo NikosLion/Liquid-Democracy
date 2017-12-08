@@ -452,8 +452,8 @@ function register(){
                 console.log(req.status);
                 console.log(req.readyState);
                 console.log(req.getResponseHeader("result"));
-                activeUser = req.getResponseHeader("activeUser");
-                activeEmail = req.getResponseHeader("activeEmail");
+                activeUser = req.getResponseHeader("username");
+                activeEmail = req.getResponseHeader("email");
                 //new
                 document.cookie = 'username='+activeUser;
                 document.cookie = 'email='+activeEmail;
@@ -643,8 +643,8 @@ function login(){
                 console.log(req.status);
                 console.log(req.readyState);
                 console.log(req.getResponseHeader("result"));
-                activeUser = req.getResponseHeader("activeUser");
-                activeEmail = req.getResponseHeader("activeEmail");
+                activeUser = req.getResponseHeader("username");
+                activeEmail = req.getResponseHeader("email");
                 //new
                 document.cookie = 'username='+activeUser;
                 document.cookie = 'email='+activeEmail;
@@ -675,6 +675,10 @@ function checkActiveSession(){
                 console.log(req.readyState);
                 //if success, servlet says we are already logged in so we display UI
                 console.log(req.getResponseHeader("result"));
+                activeUser = req.getResponseHeader("username");
+                activeEmail = req.getResponseHeader("email");
+                console.log(activeUser);
+                console.log(activeEmail);
                 displayUI(req);
             }else if(req.readyState === 4 && req.status !== 200){
                 //else we just normaly display our page
@@ -897,15 +901,17 @@ function createInitiative(){
     var req = new XMLHttpRequest();
     
     req.onreadystatechange = function(){
-            if(req.readyState === 4 && req.status === 200){
-                console.log(req.status);
-                console.log(req.readyState);
-                console.log(req.responseText);
-            }else if(req.readyState === 4 && req.status !== 200){
-                console.log(req.status);
-                console.log(req.readyState);
-                console.log(req.responseText);
-            }
+        if(req.readyState === 4 && req.status === 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            var container = document.getElementById('container');
+            var activeInitiativesHTML = req.responseText;
+            container.innerHTML = activeInitiativesHTML;
+        }else if(req.readyState === 4 && req.status !== 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        }
     };
     req.open('POST', 'createInitiative', true);
     req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
@@ -918,21 +924,44 @@ function getActiveInitiatives(){
     var req = new XMLHttpRequest();
     
     req.onreadystatechange = function(){
-            if(req.readyState === 4 && req.status === 200){
-                console.log(req.status);
-                console.log(req.readyState);
-                var container = document.getElementById('container');
-                var activeInitiativesHTML = req.responseText;
-                container.innerHTML = activeInitiativesHTML;
-            }else if(req.readyState === 4 && req.status !== 200){
-                console.log(req.status);
-                console.log(req.readyState);
-                console.log(req.responseText);
-            }
+        if(req.readyState === 4 && req.status === 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            var container = document.getElementById('container');
+            var activeInitiativesHTML = req.responseText;
+            container.innerHTML = activeInitiativesHTML;
+        }else if(req.readyState === 4 && req.status !== 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        }
     };
     req.open('POST', 'getActiveInitiatives', true);
     req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     req.send('username=' + username);
+}
+
+function showOwnInitiatives(){
+    var creator = activeUser;
+    
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function(){
+        if(req.readyState === 4 && req.status === 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            var container = document.getElementById('container');
+            var ownInitiativesHTML = req.responseText;
+            container.innerHTML = ownInitiativesHTML;
+        }else if(req.readyState === 4 && req.status !== 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(responseText);
+        }
+    };
+    req.open('POST', 'showMyInitiatives', true);
+    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    req.send('creator=' + creator);
 }
 
 function VoteInitiative(vote, title, username){
