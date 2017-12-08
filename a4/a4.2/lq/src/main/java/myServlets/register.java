@@ -124,8 +124,6 @@ public class register extends HttpServlet {
                         }
                         response = setupRespHeaders(response, araujo);
                         response.setHeader("result", araujo.getUserName() + " is now on Liquid");
-                        response.setHeader("activeUser", araujo.getUserName());
-                        response.setHeader("activeEmail", araujo.getEmail());
                     }
                 }
             } else {

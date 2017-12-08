@@ -452,8 +452,8 @@ function register(){
                 console.log(req.status);
                 console.log(req.readyState);
                 console.log(req.getResponseHeader("result"));
-                activeUser = req.getResponseHeader("activeUser");
-                activeEmail = req.getResponseHeader("activeEmail");
+                activeUser = req.getResponseHeader("username");
+                activeEmail = req.getResponseHeader("email");
                 //new
                 document.cookie = 'username='+activeUser;
                 document.cookie = 'email='+activeEmail;
@@ -643,8 +643,8 @@ function login(){
                 console.log(req.status);
                 console.log(req.readyState);
                 console.log(req.getResponseHeader("result"));
-                activeUser = req.getResponseHeader("activeUser");
-                activeEmail = req.getResponseHeader("activeEmail");
+                activeUser = req.getResponseHeader("username");
+                activeEmail = req.getResponseHeader("email");
                 //new
                 document.cookie = 'username='+activeUser;
                 document.cookie = 'email='+activeEmail;
@@ -675,6 +675,10 @@ function checkActiveSession(){
                 console.log(req.readyState);
                 //if success, servlet says we are already logged in so we display UI
                 console.log(req.getResponseHeader("result"));
+                activeUser = req.getResponseHeader("username");
+                activeEmail = req.getResponseHeader("email");
+                console.log(activeUser);
+                console.log(activeEmail);
                 displayUI(req);
             }else if(req.readyState === 4 && req.status !== 200){
                 //else we just normaly display our page

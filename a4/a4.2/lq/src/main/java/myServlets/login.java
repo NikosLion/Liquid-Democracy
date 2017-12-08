@@ -95,8 +95,6 @@ public class login extends HttpServlet {
                     }
                     response = setupRespHeaders(response, araujo);
                     response.setHeader("result", araujo.getUserName() + " is now online");
-                    response.setHeader("activeUser", araujo.getUserName());
-                    response.setHeader("activeEmail", araujo.getEmail());
                     out.print("Welcome " + araujo.getUserName());
                 } else {
                     response.setStatus(400);
