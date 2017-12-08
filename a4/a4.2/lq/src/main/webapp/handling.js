@@ -964,6 +964,34 @@ function showOwnInitiatives(){
     req.send('creator=' + creator);
 }
 
+function activateInitiative(title, creator){
+    var title = title;
+    var creator = creator;
+    var day = document.getElementById('day').value;
+    var month = document.getElementById('month').value;
+    var year = document.getElementById('year').value;
+    var hour = document.getElementById('hour').value;
+    var minute = document.getElementById('minute').value;
+    var second = document.getElementById('second').value;
+    
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function(){
+        if(req.readyState === 4 && req.status === 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        }else if(req.readyState === 4 && req.status !== 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        }
+    };
+    req.open('POST', 'activateInitiative', true);
+    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    req.send('creator=' + creator+ '&title=' + title + '&day=' + day + '&month=' + month + '&year=' + year + '&hour=' + hour + '&minute=' + minute + '&second=' + second);
+}
+
 function VoteInitiative(vote, title, username){
     return;
 }
