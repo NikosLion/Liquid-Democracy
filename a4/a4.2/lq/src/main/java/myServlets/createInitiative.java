@@ -42,6 +42,7 @@ public class createInitiative extends HttpServlet {
         try {
             String initiativeTitle = request.getParameter("title");
             List<Initiative> allInitiatives = InitiativeDB.getAllInitiatives();
+            int id = allInitiatives.size();
             for (int i = 0; i < allInitiatives.size(); i++) {
                 if (allInitiatives.get(i).getTitle().equals(initiativeTitle)) {
                     initiativeExists = true;
@@ -54,9 +55,10 @@ public class createInitiative extends HttpServlet {
                 newInitiative.setCategory(request.getParameter("category"));
                 newInitiative.setTitle(request.getParameter("title"));
                 newInitiative.setStatus(0);//Default status to inactive
-                //SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                Date expdate = setExpirationDate(request);
-                newInitiative.setExpires(expdate);
+                //Date expdate = setExpirationDate(request);
+                //newInitiative.setExpires(expdate);
+                newInitiative.setId(id);
+                newInitiative.setCreated(new Date());//nmz pws etsi vazei to current date and time
                 InitiativeDB.addInitiative(newInitiative);
                 RequestDispatcher rd = request.getRequestDispatcher("showMyInitiatives");//AFTER THE INITIATIVE IS CREATED WE CALL THE showMyInitiatives SERVLET
                 rd.forward(request, response);
@@ -66,7 +68,7 @@ public class createInitiative extends HttpServlet {
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(createInitiative.class.getName()).log(Level.SEVERE, null, ex);
-            response.setStatus(400);
+            response.setStatus(500);
         }
     }
 

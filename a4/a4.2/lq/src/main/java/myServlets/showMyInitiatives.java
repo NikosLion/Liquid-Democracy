@@ -35,7 +35,7 @@ public class showMyInitiatives extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String username = request.getParameter("creator");//same as the username... maybe can get it from session if we want to
+            String username = request.getParameter("creator");//same as the username...
             List<Initiative> allInitiatives = InitiativeDB.getInitiatives(username);
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
@@ -49,13 +49,13 @@ public class showMyInitiatives extends HttpServlet {
             out.println("<h2>Users</h2>");
             for (int i = 0; i < allInitiatives.size(); i++) {
                 out.println("<h2>Title</h2>");
-                out.println("<h3>" + allInitiatives.get(i).getTitle() + "</h3>");
+                out.println("<p>" + allInitiatives.get(i).getTitle() + "</p>");
                 out.println("<h2>Category</h2>");
-                out.println("<h3>" + allInitiatives.get(i).getCategory() + "</h3>");
+                out.println("<p>" + allInitiatives.get(i).getCategory() + "</p>");
                 out.println("<h2>Description</h2>");
-                out.println("<h3>" + allInitiatives.get(i).getDescription() + "</h3>");
+                out.println("<p>" + allInitiatives.get(i).getDescription() + "</p>");
                 out.println("<h3>Creator</h3>");
-                out.println("<h4>" + allInitiatives.get(i).getCreator() + "</h4>");
+                out.println("<p>" + allInitiatives.get(i).getCreator() + "</p>");
             }
             out.println("</body>");
             out.println("</html>");
