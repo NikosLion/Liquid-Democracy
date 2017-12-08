@@ -59,12 +59,20 @@ public class activateInitiative extends HttpServlet {
                     Date expdate = setExpirationDate(request);
                     if (expdate.before(new Date())) {//If the expiration date is older than the current one
                         response.setStatus(400);
-                        out.print("Wrong date:");
+                        out.print("Wrong date.");
                     } else {
-                        InitiativeDB.getInitiative(i).setExpires(expdate);
-                        InitiativeDB.getInitiative(i).setStatus(1);//Because of the break i contains the id of the Initiative
-                        RequestDispatcher rd = request.getRequestDispatcher("getActiveInitiatives");//after the initiative is activated we call the getActiveInitiatives servlet
-                        rd.forward(request, response);
+                        for (int j = 0; j < myInitiatives.size(); j++) {
+                            if (myInitiatives.get(j).getTitle().equals(title)) {
+                                Initiative tmpinitiative = InitiativeDB.getInitiative(j);
+                                tmpinitiative.setStatus(1);
+                                InitiativeDB.updateInitiative(tmpinitiative);
+                                System.out.println(tmpinitiative);
+                                //InitiativeDB.getInitiative(i).setExpires(expdate);
+                                //InitiativeDB.getInitiative(i).setStatus(1);//Because of the break i contains the id of the Initiative
+                                RequestDispatcher rd = request.getRequestDispatcher("getActiveInitiatives");//after the initiative is activated we call the getActiveInitiatives servlet
+                                rd.forward(request, response);
+                            }
+                        }
                     }
 
                 }
