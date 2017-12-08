@@ -980,7 +980,9 @@ function activateInitiative(title, creator){
         if(req.readyState === 4 && req.status === 200){
             console.log(req.status);
             console.log(req.readyState);
-            console.log(req.responseText);
+            var container = document.getElementById('container');
+            var activeInitiativesHTML = req.responseText;
+            container.innerHTML = activeInitiativesHTML;
         }else if(req.readyState === 4 && req.status !== 200){
             console.log(req.status);
             console.log(req.readyState);
@@ -990,6 +992,59 @@ function activateInitiative(title, creator){
     req.open('POST', 'activateInitiative', true);
     req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     req.send('creator=' + creator+ '&title=' + title + '&day=' + day + '&month=' + month + '&year=' + year + '&hour=' + hour + '&minute=' + minute + '&second=' + second);
+}
+
+var currentTitle;
+
+function getInitiativeForUpdate(title, creator, description, category){
+    currentTitle = title;
+    var description = description;
+    var category = category;
+    var container = document.getElementById('container');
+    var initiativeFormHTML = '<button id="createInitiative" type="button" onclick="createInitiativeForm()">Create</button>\n\
+    <button id="showOwn" type="button" onclick="showOwnInitiatives()">Show Mine</button>\n\
+    <button id="getActive" type="button" onclick="getActiveInitiatives()">Active</button>\n\
+    <button id="back" type="button" onclick="showUserUI()">Back</button>\n\
+    <div id="formContainer">\n\
+        <form id="initiativeForm">\n\
+            <label for="Title">Title<br></label>\n\
+            <input id="Title" type="text" value="" required><br>\n\
+            <label for="Category">Category<br></label>\n\
+            <input id="Category" type="text" value="" required><br>\n\
+            <label for="Description">Description<br></label>\n\
+            <input id="Description" type="textarea" value="" required><br>\n\
+            <input id="Submit" type="button" value="Update" onclick="updateInitiative()"></button>\n\
+        </form>\n\
+    </div>';
+    container.innerHTML = initiativeFormHTML;   
+}
+
+function updateInitiative(){
+    var newTitle = document.getElementById('Title').value;
+    var category = document.getElementById('Category').value;
+    var description = document.getElementById('Description').value;
+    var creator = activeUser;
+    
+    var oldTitle = currentTitle;
+    
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function(){
+        if(req.readyState === 4 && req.status === 200){
+            //if success on update current title has the new value
+            currentTitle = newTitle;
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        }else if(req.readyState === 4 && req.status !== 200){
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        }
+    };
+    req.open('POST', 'updateInitiative', true);
+    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    req.send('creator=' + creator + '&title=' + newTitle + '&category=' + category + '&description=' + description);
 }
 
 function VoteInitiative(vote, title, username){
