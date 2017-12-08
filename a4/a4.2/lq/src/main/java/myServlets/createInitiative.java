@@ -49,19 +49,37 @@ public class createInitiative extends HttpServlet {
                 }
             }
             if (initiativeExists == false) {//If initiative does not already exist
-                Initiative newInitiative = new Initiative();
-                newInitiative.setCreator(request.getParameter("creator"));//Creator is the same thing as username
-                newInitiative.setDescription(request.getParameter("description"));
-                newInitiative.setCategory(request.getParameter("category"));
-                newInitiative.setTitle(request.getParameter("title"));
-                newInitiative.setStatus(0);//Default status to inactive
-                //Date expdate = setExpirationDate(request);
-                //newInitiative.setExpires(expdate);
-                newInitiative.setId(id);
-                newInitiative.setCreated(new Date());//nmz pws etsi vazei to current date and time
-                InitiativeDB.addInitiative(newInitiative);
-                RequestDispatcher rd = request.getRequestDispatcher("showMyInitiatives");//AFTER THE INITIATIVE IS CREATED WE CALL THE showMyInitiatives SERVLET
-                rd.forward(request, response);
+                if (request.getParameter("creator") != null && !request.getParameter("creator").equals("") && request.getParameter("description") != null && !request.getParameter("description").equals("") && request.getParameter("category") != null && !request.getParameter("category").equals("") && request.getParameter("title") != null && !request.getParameter("title").equals("")) {
+                    Initiative newInitiative = new Initiative();
+                    newInitiative.setCreator(request.getParameter("creator"));//Creator is the same thing as username
+                    newInitiative.setDescription(request.getParameter("description"));
+                    newInitiative.setCategory(request.getParameter("category"));
+                    newInitiative.setTitle(request.getParameter("title"));
+                    newInitiative.setStatus(0);//Default status to inactive
+                    //Date expdate = setExpirationDate(request);
+                    //newInitiative.setExpires(expdate);
+                    newInitiative.setId(id);
+                    newInitiative.setCreated(new Date());//nmz pws etsi vazei to current date and time
+                    InitiativeDB.addInitiative(newInitiative);
+                    RequestDispatcher rd = request.getRequestDispatcher("showMyInitiatives");//AFTER THE INITIATIVE IS CREATED WE CALL THE showMyInitiatives SERVLET
+                    rd.forward(request, response);
+                } else {
+                    response.setStatus(400);
+                    out.print("Wrong parameters:");
+                    if(request.getParameter("creator") == null || request.getParameter("creator").equals("")){
+                        out.println("creator");
+                    }
+                    if(request.getParameter("description") == null || request.getParameter("description").equals("")){
+                        out.print("description");
+                    }
+                    if(request.getParameter("category") == null || request.getParameter("category").equals("")){
+                        out.print("category");
+                    }
+                    if(request.getParameter("title") == null || request.getParameter("title").equals("")){
+                        out.print("title");
+                    }
+                }
+
             } else {
                 response.setStatus(400);
                 out.print("Initiative Already exists");
