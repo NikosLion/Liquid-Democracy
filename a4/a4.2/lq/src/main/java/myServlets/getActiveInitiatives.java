@@ -44,7 +44,6 @@ public class getActiveInitiatives extends HttpServlet {
             out.println("<title>Active Initiatives:</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h2>Users</h2>");
             for (int i = 0; i < activeInitiatives.size(); i++) {
                 out.println("<h2>Title</h2>");
                 out.println("<p>" + activeInitiatives.get(i).getTitle() + "</p>");
