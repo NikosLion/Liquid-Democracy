@@ -9,7 +9,6 @@ import gr.csd.uoc.cs359.winter2017.lq.db.InitiativeDB;
 import gr.csd.uoc.cs359.winter2017.lq.model.Initiative;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -66,16 +65,16 @@ public class createInitiative extends HttpServlet {
                 } else {
                     response.setStatus(400);
                     out.print("Wrong parameters:");
-                    if(request.getParameter("creator") == null || request.getParameter("creator").equals("")){
+                    if (request.getParameter("creator") == null || request.getParameter("creator").equals("")) {
                         out.println("creator");
                     }
-                    if(request.getParameter("description") == null || request.getParameter("description").equals("")){
+                    if (request.getParameter("description") == null || request.getParameter("description").equals("")) {
                         out.print("description");
                     }
-                    if(request.getParameter("category") == null || request.getParameter("category").equals("")){
+                    if (request.getParameter("category") == null || request.getParameter("category").equals("")) {
                         out.print("category");
                     }
-                    if(request.getParameter("title") == null || request.getParameter("title").equals("")){
+                    if (request.getParameter("title") == null || request.getParameter("title").equals("")) {
                         out.print("title");
                     }
                 }
@@ -117,17 +116,6 @@ public class createInitiative extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    }
-
-    private Date setExpirationDate(HttpServletRequest request) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, Integer.parseInt(request.getParameter("year")));
-        cal.set(Calendar.MONTH, Integer.parseInt(request.getParameter("month")));
-        cal.set(Calendar.DAY_OF_WEEK, Integer.parseInt(request.getParameter("day")));//EDW DN EIMAI SIGOUROS
-        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(request.getParameter("hour")));//POTE THELEI NA KANEI EXPIRE(TI MERA WRA KLP)
-        cal.set(Calendar.MINUTE, Integer.parseInt(request.getParameter("minute")));//OXI SE POSES MERES WRES KLP
-        cal.set(Calendar.SECOND, Integer.parseInt(request.getParameter("second")));
-        return cal.getTime();
     }
 
     /**
