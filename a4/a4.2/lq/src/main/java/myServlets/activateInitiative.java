@@ -59,12 +59,25 @@ public class activateInitiative extends HttpServlet {
                     Date expdate = setExpirationDate(request);
                     if (expdate.before(new Date())) {//If the expiration date is older than the current one
                         response.setStatus(400);
-                        out.print("Wrong date:");
+                        out.print(expdate);
+                        out.print("Wrong date.");
                     } else {
-                        InitiativeDB.getInitiative(i).setExpires(expdate);
-                        InitiativeDB.getInitiative(i).setStatus(1);//Because of the break i contains the id of the Initiative
-                        RequestDispatcher rd = request.getRequestDispatcher("getActiveInitiatives");//after the initiative is activated we call the getActiveInitiatives servlet
-                        rd.forward(request, response);
+                        for (int j = 0; j < myInitiatives.size(); j++) {
+                            if (myInitiatives.get(j).getId() != -1) {
+                                //System.out.println("j=" + j);
+                                if (myInitiatives.get(j).getTitle().equals(title)) {
+                                    int initiativeId = myInitiatives.get(j).getId();
+                                    Initiative tmpinitiative = InitiativeDB.getInitiative(initiativeId);
+                                    tmpinitiative.setStatus(1);
+                                    System.out.println("expiration date = " + expdate);
+                                    tmpinitiative.setExpires(expdate);
+                                    InitiativeDB.updateInitiative(tmpinitiative);
+                                    System.out.println(InitiativeDB.getInitiative(initiativeId));
+                                    RequestDispatcher rd = request.getRequestDispatcher("getActiveInitiatives");//after the initiative is activated we call the getActiveInitiatives servlet
+                                    rd.forward(request, response);
+                                }
+                            }
+                        }
                     }
 
                 }
@@ -85,10 +98,11 @@ public class activateInitiative extends HttpServlet {
     }
 
     private Date setExpirationDate(HttpServletRequest request) {
+        System.out.println("year=" + request.getParameter("year") + " month=" + request.getParameter("month") + "day=" + request.getParameter("day") +"hour=" + request.getParameter("hour") + "minute=" + request.getParameter("minute") +"second=" + request.getParameter("second"));
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, Integer.parseInt(request.getParameter("year")));
-        cal.set(Calendar.MONTH, Integer.parseInt(request.getParameter("month")));
-        cal.set(Calendar.DAY_OF_WEEK, Integer.parseInt(request.getParameter("day")));//EDW DN EIMAI SIGOUROS
+        cal.set(Calendar.MONTH, (Integer.parseInt(request.getParameter("month"))) -1 );//The month in calendar starts from 0. Thats why its -1
+        cal.set(Calendar.DATE, Integer.parseInt(request.getParameter("day")));//EDW DN EIMAI SIGOUROS
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(request.getParameter("hour")));//POTE THELEI NA KANEI EXPIRE(TI MERA WRA KLP)
         cal.set(Calendar.MINUTE, Integer.parseInt(request.getParameter("minute")));//OXI SE POSES MERES WRES KLP
         cal.set(Calendar.SECOND, Integer.parseInt(request.getParameter("second")));
