@@ -994,10 +994,13 @@ function activateInitiative(title, creator){
     req.send('creator=' + creator+ '&title=' + title + '&day=' + day + '&month=' + month + '&year=' + year + '&hour=' + hour + '&minute=' + minute + '&second=' + second);
 }
 
+//keep these for updateInitiative
 var currentTitle;
+var currentID;
 
-function getInitiativeForUpdate(title, creator, description, category){
+function getInitiativeForUpdate(title, creator, description, category, id){
     currentTitle = title;
+    currentID = id;
     var description = description;
     var category = category;
     var container = document.getElementById('container');
@@ -1026,6 +1029,7 @@ function updateInitiative(){
     var creator = activeUser;
     
     var oldTitle = currentTitle;
+    var id = currentID;
     
     var req = new XMLHttpRequest();
     
@@ -1035,7 +1039,9 @@ function updateInitiative(){
             currentTitle = newTitle;
             console.log(req.status);
             console.log(req.readyState);
-            console.log(req.responseText);
+            var container = document.getElementById('container');
+            var ownInitiativesHTML = req.responseText;
+            container.innerHTML = ownInitiativesHTML;
         }else if(req.readyState === 4 && req.status !== 200){
             console.log(req.status);
             console.log(req.readyState);
@@ -1044,7 +1050,7 @@ function updateInitiative(){
     };
     req.open('POST', 'updateInitiative', true);
     req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-    req.send('creator=' + creator + '&title=' + newTitle + '&category=' + category + '&description=' + description);
+    req.send('creator=' + creator + '&title=' + newTitle + '&category=' + category + '&description=' + description + '&id=' + id);
 }
 
 function VoteInitiative(vote, title, username){

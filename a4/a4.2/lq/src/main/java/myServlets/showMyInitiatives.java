@@ -251,7 +251,7 @@ public class showMyInitiatives extends HttpServlet {
                         + "                        <option value=\"58\">58</option>\n"
                         + "                        <option value=\"59\">59</option>\n"
                         + "                    </select><br>");
-                out.println("<button id='update' type='button' onclick='getInitiativeForUpdate(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\",\"" + allInitiatives.get(i).getDescription() + "\",\"" + allInitiatives.get(i).getCategory() + "\")'>Update</button>");
+                out.println("<button id='update' type='button' onclick='getInitiativeForUpdate(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\",\"" + allInitiatives.get(i).getDescription() + "\",\"" + allInitiatives.get(i).getCategory() + "\",\"" + allInitiatives.get(i).getId() + "\")'>Update</button>");
                 out.println("<button id='activate' type='button' onclick='activateInitiative(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\")'>Activate</button>");
             }
             out.println("</body>");
