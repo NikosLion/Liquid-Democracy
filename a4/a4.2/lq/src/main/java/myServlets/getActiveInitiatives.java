@@ -53,10 +53,12 @@ public class getActiveInitiatives extends HttpServlet {
                 out.println("<p>" + activeInitiatives.get(i).getDescription() + "</p>");
                 out.println("<h3>Creator</h3>");
                 out.println("<p>" + activeInitiatives.get(i).getCreator() + "</p>");
+                out.println("<h3>Expiration date:</h3>");
+                out.println("<p>" + activeInitiatives.get(i).getExpiresAsString() + "</p>");
                 //EDW THELW TWRA 2 BUTTONS GIA TO VOTE 
                 //EDW TO ATTRIBUTE GIA NA PAIRNOUME TO NAME AFTOU POU PSIFIZEI
-                out.println("<button id='upvote' type='button' onclick='VoteInitiative('upvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>upvote</button>");//isws na to kanoume apo js ta buttons gia to vote
-                out.println("<button id='downvote' type='button' onclick='VoteInitiative('downvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>downvote</button>");
+                out.println("<button id='upvote' type='button' onclick='VoteUpdateInitiative('vote','upvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>upvote</button>");//isws na to kanoume apo js ta buttons gia to vote
+                out.println("<button id='downvote' type='button' onclick='VoteUpdateInitiative('vote','downvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>downvote</button>");
             }
             out.println("</body>");
             out.println("</html>");
