@@ -85,7 +85,7 @@ public class Vote implements Serializable {
     public void setInitiativeID(int initiativeID) {
         this.initiativeID = initiativeID;
     }
-    
+
     public String getCreatedAsString() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         return sdfDate.format(created);

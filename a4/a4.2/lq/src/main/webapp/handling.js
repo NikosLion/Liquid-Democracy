@@ -22,7 +22,6 @@ function showLogin() {
     document.getElementById('formContainer').style.display = 'block';
     document.getElementById('myform').style.display = 'none';
     document.getElementById('loginForm').style.display = 'block';
-
 }
 
 /*Use this function to let user know that
@@ -32,6 +31,7 @@ function showLogin() {
 function CheckPassEquality() {
     var pass1 = document.getElementById('pass1').value;
     var pass2 = document.getElementById('pass2').value;
+
     if (pass1 !== pass2) {
         document.getElementById('pass2').title = "Password Missmatch";
         var message = document.getElementById('pass2');
@@ -103,6 +103,7 @@ function createMap() {
         } else {
             alert('Address not found');
         }
+
     });
 }
 
@@ -211,6 +212,7 @@ function showRadio() {
     newButton.style.color = '#d9d9d9';
     newButton.style.fontSize = '19px';
     /*fix button position if form is narrow*/
+
     formCont = document.getElementById('formContainer');
     if (formCont.style.width === "60%") {
         newButton.style.right = "100px";
@@ -335,6 +337,7 @@ function checkPassword() {
     PASS2 = false;
 
     var req = new XMLHttpRequest();
+
 
     req.onreadystatechange = function () {
         if (req.readyState === 4 && req.status === 200) {

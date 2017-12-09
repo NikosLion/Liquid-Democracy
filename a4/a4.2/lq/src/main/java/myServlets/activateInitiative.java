@@ -98,10 +98,10 @@ public class activateInitiative extends HttpServlet {
     }
 
     private Date setExpirationDate(HttpServletRequest request) {
-        System.out.println("year=" + request.getParameter("year") + " month=" + request.getParameter("month") + "day=" + request.getParameter("day") +"hour=" + request.getParameter("hour") + "minute=" + request.getParameter("minute") +"second=" + request.getParameter("second"));
+        System.out.println("year=" + request.getParameter("year") + " month=" + request.getParameter("month") + "day=" + request.getParameter("day") + "hour=" + request.getParameter("hour") + "minute=" + request.getParameter("minute") + "second=" + request.getParameter("second"));
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, Integer.parseInt(request.getParameter("year")));
-        cal.set(Calendar.MONTH, (Integer.parseInt(request.getParameter("month"))) -1 );//The month in calendar starts from 0. Thats why its -1
+        cal.set(Calendar.MONTH, (Integer.parseInt(request.getParameter("month"))) - 1);//The month in calendar starts from 0. Thats why its -1
         cal.set(Calendar.DATE, Integer.parseInt(request.getParameter("day")));//EDW DN EIMAI SIGOUROS
         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(request.getParameter("hour")));//POTE THELEI NA KANEI EXPIRE(TI MERA WRA KLP)
         cal.set(Calendar.MINUTE, Integer.parseInt(request.getParameter("minute")));//OXI SE POSES MERES WRES KLP
