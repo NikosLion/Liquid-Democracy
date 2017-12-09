@@ -966,15 +966,21 @@ function showOwnInitiatives() {
     req.send('creator=' + creator);
 }
 
-function activateInitiative(title, creator) {
+function GetElementInsideContainer(containerID, childID) {
+    var elm = document.getElementById(childID);
+    var parent = elm ? elm.parentNode : {};
+    return (parent.id && parent.id === containerID) ? elm : {};
+}
+
+function activateInitiative(title, creator, i) {
     var title = title;
     var creator = creator;
-    var day = document.getElementById('day').value;
-    var month = document.getElementById('month').value;
-    var year = document.getElementById('year').value;
-    var hour = document.getElementById('hour').value;
-    var minute = document.getElementById('minute').value;
-    var second = document.getElementById('second').value;
+    var month = document.getElementById("edate" + i).querySelector("#month").value;
+    var year = document.getElementById("edate" + i).querySelector("#year").value;
+    var day = document.getElementById("edate" + i).querySelector("#day").value;
+    var hour = document.getElementById("edate" + i).querySelector("#hour").value;
+    var minute = document.getElementById("edate" + i).querySelector("#minute").value;
+    var second = document.getElementById("edate" + i).querySelector("#second").value;
 
     var req = new XMLHttpRequest();
 

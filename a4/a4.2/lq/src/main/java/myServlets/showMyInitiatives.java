@@ -43,7 +43,7 @@ public class showMyInitiatives extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Active Initiatives:</title>");
+            out.println("<title>My Initiatives:</title>");
             out.println("</head>");
             out.println("<body>");
             for (int i = 0; i < allInitiatives.size(); i++) {
@@ -55,6 +55,7 @@ public class showMyInitiatives extends HttpServlet {
                 out.println("<p>" + allInitiatives.get(i).getDescription() + "</p>");
                 out.println("<h3>Creator</h3>");
                 out.println("<p>" + allInitiatives.get(i).getCreator() + "</p>");
+                out.println("<div id = \"edate" + i + "\">");
                 out.println("<select id='day' required>\n"
                         + "                        <option value=\"1\">1</option>\n"
                         + "                        <option value=\"2\">2</option>\n"
@@ -117,19 +118,20 @@ public class showMyInitiatives extends HttpServlet {
                         + "  <option value=\"10\">10:00 am</option>\n"
                         + "  <option value=\"11\">11:00 am</option>\n"
                         + "  <option value=\"12\">12:00 pm</option>\n"
-                        + "  <option value=\"13\">1:00 pm</option>\n"
-                        + "  <option value=\"14\">2:00 pm</option>\n"
-                        + "  <option value=\"15\">3:00 pm</option>\n"
-                        + "  <option value=\"16\">4:00 pm</option>\n"
-                        + "  <option value=\"17\">5:00 pm</option>\n"
-                        + "  <option value=\"18\">6:00 pm</option>\n"
-                        + "  <option value=\"19\">7:00 pm</option>\n"
-                        + "  <option value=\"20\">8:00 pm</option>\n"
-                        + "  <option value=\"21\">9:00 pm</option>\n"
-                        + "  <option value=\"22\">10:00 pm</option>\n"
-                        + "  <option value=\"23\">11:00 pm</option>\n"
+                        + "  <option value=\"13\">13:00 pm</option>\n"
+                        + "  <option value=\"14\">14:00 pm</option>\n"
+                        + "  <option value=\"15\">15:00 pm</option>\n"
+                        + "  <option value=\"16\">16:00 pm</option>\n"
+                        + "  <option value=\"17\">17:00 pm</option>\n"
+                        + "  <option value=\"18\">18:00 pm</option>\n"
+                        + "  <option value=\"19\">19:00 pm</option>\n"
+                        + "  <option value=\"20\">20:00 pm</option>\n"
+                        + "  <option value=\"21\">21:00 pm</option>\n"
+                        + "  <option value=\"22\">22:00 pm</option>\n"
+                        + "  <option value=\"23\">23:00 pm</option>\n"
                         + "</select><br>");
                 out.println("<select id='minute' required>\n"
+                        + "                        <option value=\"0\">0</option>\n"
                         + "                        <option value=\"1\">1</option>\n"
                         + "                        <option value=\"2\">2</option>\n"
                         + "                        <option value=\"3\">3</option>\n"
@@ -191,6 +193,7 @@ public class showMyInitiatives extends HttpServlet {
                         + "                        <option value=\"59\">59</option>\n"
                         + "                    </select><br>");
                 out.println("<select id='second' required>\n"
+                        + "                        <option value=\"0\">0</option>\n"
                         + "                        <option value=\"1\">1</option>\n"
                         + "                        <option value=\"2\">2</option>\n"
                         + "                        <option value=\"3\">3</option>\n"
@@ -251,8 +254,14 @@ public class showMyInitiatives extends HttpServlet {
                         + "                        <option value=\"58\">58</option>\n"
                         + "                        <option value=\"59\">59</option>\n"
                         + "                    </select><br>");
-                out.println("<button id='activate' type='button' onclick='activateInitiative(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\")'>Activate</button>");
+                if (allInitiatives.get(i).getStatus() == 1) {//If its active vote
+                    out.println("<button id='upvote' type='button' onclick='VoteInitiative('upvote'," + allInitiatives.get(i).getTitle() + "," + request.getParameter("creator") + ")'>upvote</button>");//isws na to kanoume apo js ta buttons gia to vote
+                    out.println("<button id='downvote' type='button' onclick='VoteInitiative('downvote'," + allInitiatives.get(i).getTitle() + "," + request.getParameter("creator") + ")'>downvote</button>");
+                } else if (allInitiatives.get(i).getStatus() == 0) {//If its inactive user can make it active
+                    out.println("<button id='activate' type='button' onclick='activateInitiative(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\",\"" + i + "\")'>Activate</button>");
+                }
             }
+            out.println("</div>");
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {
