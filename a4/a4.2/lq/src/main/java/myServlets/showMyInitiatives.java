@@ -96,7 +96,7 @@ public class showMyInitiatives extends HttpServlet {
                         + "                        <option value=\"4\" name=\"4\">April</option>\n"
                         + "                        <option value=\"5\" name=\"5\">May</option>\n"
                         + "                        <option value=\"6\" name=\"6\">June</option>\n"
-                        + "                        <option value=\"July\" name=\"7\">July</option>\n"
+                        + "                        <option value=\"7\" name=\"7\">July</option>\n"
                         + "                        <option value=\"8\" name=\"8\">August</option>\n"
                         + "                        <option value=\"9\" name=\"9\">September</option>\n"
                         + "                        <option value=\"10\" name=\"10\">October</option>\n"

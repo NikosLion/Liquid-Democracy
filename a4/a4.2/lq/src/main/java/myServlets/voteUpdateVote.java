@@ -10,8 +10,6 @@ import gr.csd.uoc.cs359.winter2017.lq.model.Initiative;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author giorgosvr46
  */
-public class getActiveInitiatives extends HttpServlet {
+public class voteUpdateVote extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,40 +33,44 @@ public class getActiveInitiatives extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            List<Initiative> activeInitiatives = InitiativeDB.getInitiativesWithStatus(1);
-            response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
+            String action = request.getParameter("action");
+            String upvotedownvote = request.getParameter("upvotedownvote");
+            String title = request.getParameter("title");
+            String creator = request.getParameter("creator");
+            String username = request.getParameter("username");//Its the username of the user voting. Not necessarily the creator but could also be him voting his own initiative.
+            if (action.equals("vote")) {
+                List<Initiative> activeInitiatives = InitiativeDB.getInitiativesWithStatus(1);
+                for (int i = 0; i < activeInitiatives.size(); i++) {
+                    if (activeInitiatives.get(i).getTitle().equals(title) && activeInitiatives.get(i).getCreator().equals(creator)) {
+                        int id = activeInitiatives.get(i).getId();//ara exoume to id tou initiative pou theloume na pame kai na kanoume vote
+
+                    }
+                }
+            } else if (action.equals("updatevote")) {
+
+            } else {
+                out.println("Wrong parameter: action");
+                response.setStatus(400);
+            }
+            response.setContentType("text/html;charset=UTF-8");
+
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
+            out.println("<html>");
             out.println("<head>");
-            out.println("<title>Active Initiatives:</title>");
+            out.println("<title>Servlet voteUpdateVote</title>");
             out.println("</head>");
             out.println("<body>");
-            for (int i = 0; i < activeInitiatives.size(); i++) {
-                out.println("<h2>Title</h2>");
-                out.println("<p>" + activeInitiatives.get(i).getTitle() + "</p>");
-                out.println("<h2>Category</h2>");
-                out.println("<p>" + activeInitiatives.get(i).getCategory() + "</p>");
-                out.println("<h2>Description</h2>");
-                out.println("<p>" + activeInitiatives.get(i).getDescription() + "</p>");
-                out.println("<h3>Creator</h3>");
-                out.println("<p>" + activeInitiatives.get(i).getCreator() + "</p>");
-                out.println("<h3>Expiration date:</h3>");
-                out.println("<p>" + activeInitiatives.get(i).getExpiresAsString() + "</p>");
-                //EDW THELW TWRA 2 BUTTONS GIA TO VOTE 
-                //EDW TO ATTRIBUTE GIA NA PAIRNOUME TO NAME AFTOU POU PSIFIZEI
-                out.println("<button id='upvote' type='button' onclick='VoteUpdateInitiative('vote','upvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>upvote</button>");//isws na to kanoume apo js ta buttons gia to vote
-                out.println("<button id='downvote' type='button' onclick='VoteUpdateInitiative('vote','downvote'," + activeInitiatives.get(i).getTitle() + "," + request.getAttribute("creator") + ")'>downvote</button>");
-            }
+            out.println("<h1>Servlet voteUpdateVote at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(getActiveInitiatives.class.getName()).log(Level.SEVERE, null, ex);
             response.setStatus(400);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

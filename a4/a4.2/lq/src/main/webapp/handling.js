@@ -966,12 +966,6 @@ function showOwnInitiatives() {
     req.send('creator=' + creator);
 }
 
-function GetElementInsideContainer(containerID, childID) {
-    var elm = document.getElementById(childID);
-    var parent = elm ? elm.parentNode : {};
-    return (parent.id && parent.id === containerID) ? elm : {};
-}
-
 function activateInitiative(title, creator, i) {
     var title = title;
     var creator = creator;
@@ -981,7 +975,7 @@ function activateInitiative(title, creator, i) {
     var hour = document.getElementById("edate" + i).querySelector("#hour").value;
     var minute = document.getElementById("edate" + i).querySelector("#minute").value;
     var second = document.getElementById("edate" + i).querySelector("#second").value;
-
+    console.log('expiration date: year/month/day  hour/minute/second = ' + year + '/' + month + '/' + day + '  /' + hour + '/' + minute + '/' + second);
     var req = new XMLHttpRequest();
 
     req.onreadystatechange = function () {
@@ -1003,6 +997,24 @@ function activateInitiative(title, creator, i) {
     req.send('creator=' + creator + '&title=' + title + '&day=' + day + '&month=' + month + '&year=' + year + '&hour=' + hour + '&minute=' + minute + '&second=' + second);
 }
 
-function VoteInitiative(vote, title, username) {
-    return;
+function VoteUpdateInitiative(action, upvotedownvote, title, creator, username) {//action is vote or update
+    var req = new XMLHttpRequest();
+
+    req.onreadystatechange = function () {
+        if (req.readyState === 4 && req.status === 200) {
+            var container = document.getElementById('container');
+            var InitiativesHTML = req.responseText;
+            container.innerHTML = InitiativesHTML;
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        } else if (req.readyState === 4 && req.status !== 200) {
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log(req.responseText);
+        }
+    };
+    req.open('POST', 'voteUpdateVote', true);
+    req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    req.send('action=' + action + '&upvotedownvote=' + upvotedownvote + '&title=' + title + '&creator=' + creator + '&username=' + username);
 }

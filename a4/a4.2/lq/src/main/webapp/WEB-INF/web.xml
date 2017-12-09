@@ -60,6 +60,10 @@
         <servlet-name>activateInitiative</servlet-name>
         <servlet-class>myServlets.activateInitiative</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>voteUpdateVote</servlet-name>
+        <servlet-class>myServlets.voteUpdateVote</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>usernameCheck</servlet-name>
         <url-pattern>/usernameCheck</url-pattern>
@@ -119,6 +123,10 @@
     <servlet-mapping>
         <servlet-name>activateInitiative</servlet-name>
         <url-pattern>/activateInitiative</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>voteUpdateVote</servlet-name>
+        <url-pattern>/voteUpdateVote</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
