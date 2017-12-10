@@ -259,7 +259,7 @@ public class showMyInitiatives extends HttpServlet {
                     out.println("<button id='downvote' type='button' onclick='VoteUpdateVote('downvote'," + allInitiatives.get(i).getTitle() + "," + request.getParameter("creator") + ")'>downvote</button>");
                 } else if (allInitiatives.get(i).getStatus() == 0) {//If its inactive user can make it active
                     out.println("<button id='update' type='button' onclick='getInitiativeForUpdate(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\",\"" + allInitiatives.get(i).getDescription() + "\",\"" + allInitiatives.get(i).getCategory() + "\",\"" + allInitiatives.get(i).getId() + "\")'>Update</button>");
-                    out.println("<button id='activate' type='button' onclick='activateInitiative(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\")'>Activate</button>");
+                    out.println("<button id='activate' type='button' onclick='activateInitiative(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\",\"" + i + "\")'>Activate</button>");
                 }
             }
             out.println("</div>");
