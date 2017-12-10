@@ -6,10 +6,14 @@
 package myServlets;
 
 import gr.csd.uoc.cs359.winter2017.lq.db.InitiativeDB;
+import gr.csd.uoc.cs359.winter2017.lq.db.VoteDB;
 import gr.csd.uoc.cs359.winter2017.lq.model.Initiative;
+import gr.csd.uoc.cs359.winter2017.lq.model.Vote;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,32 +43,77 @@ public class voteUpdateVote extends HttpServlet {
             String title = request.getParameter("title");
             String creator = request.getParameter("creator");
             String username = request.getParameter("username");//Its the username of the user voting. Not necessarily the creator but could also be him voting his own initiative.
+            String isdelegator = request.getParameter("isdelegator");
+            List<Initiative> activeInitiatives = InitiativeDB.getInitiativesWithStatus(1);
             if (action.equals("vote")) {
-                List<Initiative> activeInitiatives = InitiativeDB.getInitiativesWithStatus(1);
                 for (int i = 0; i < activeInitiatives.size(); i++) {
                     if (activeInitiatives.get(i).getTitle().equals(title) && activeInitiatives.get(i).getCreator().equals(creator)) {
                         int id = activeInitiatives.get(i).getId();//ara exoume to id tou initiative pou theloume na pame kai na kanoume vote
-
+                        Vote tmpVote = new Vote();
+                        tmpVote.setId(VoteDB.getAllVotes().size());
+                        tmpVote.setUser(username);
+                        if (upvotedownvote.equals("upvote")) {//Setting vote
+                            if (isdelegator.equals("true")) {
+                                tmpVote.setVote(true, false);//delegator upvote
+                            } else {
+                                tmpVote.setVote(true, true);//user upvote
+                            }
+                        } else if (upvotedownvote.equals("downvote")) {
+                            if (isdelegator.equals("true")) {
+                                tmpVote.setVote(false, false);//delegator downvote
+                            } else {
+                                tmpVote.setVote(false, true);//user downvote
+                            }
+                        }
+                        tmpVote.setInitiativeID(id);
+                        tmpVote.setCreated(new Date());
                     }
+                    break;
                 }
             } else if (action.equals("updatevote")) {
-
+                for (int i = 0; i < activeInitiatives.size(); i++) {
+                    if (activeInitiatives.get(i).getTitle().equals(title) && activeInitiatives.get(i).getCreator().equals(creator)) {
+                        int initiativeid = activeInitiatives.get(i).getId();//ara exoume to id tou initiative pou theloume na pame kai na kanoume vote
+                        List<Vote> allVotes = VoteDB.getAllVotes();
+                        for (int j = 0; j < allVotes.size(); j++) {
+                            if (allVotes.get(j).getInitiativeID() == initiativeid && allVotes.get(j).getUser().equals(username)) {//We found the vote we 
+                                int voteid = allVotes.get(j).getId();
+                                Vote voteupdate = VoteDB.getVote(voteid);
+                                if (upvotedownvote.equals("upvote")) {
+                                    if (isdelegator.equals(true)) {//delegator upvote
+                                        if (voteupdate.isVotedBy() == false) {//If user has voted and delegator tries to vote
+                                            out.println("Delegator tried to update vote for user");
+                                            response.setStatus(400);
+                                        } else {
+                                            voteupdate.setVote(true, false);
+                                        }
+                                    } else {//user upvote
+                                        voteupdate.setVote(true, true);
+                                    }
+                                } else {//downvote
+                                    if (isdelegator.equals(true)) {//delegator downvote
+                                        if (voteupdate.isVotedBy() == false) {//If user has voted and delegator tries to vote
+                                            out.println("Delegator tried to update vote for user");
+                                            response.setStatus(400);
+                                        } else {
+                                            voteupdate.setVote(false, false);
+                                        }
+                                    } else {//user downvote
+                                        voteupdate.setVote(false, true);
+                                    }
+                                }
+                                VoteDB.updateVote(voteupdate);//EDW KANW UPDATE STO VOTE MESA STO DB
+                                break;
+                            }
+                        }
+                    }
+                }
             } else {
                 out.println("Wrong parameter: action");
                 response.setStatus(400);
             }
-            response.setContentType("text/html;charset=UTF-8");
-
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet voteUpdateVote</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet voteUpdateVote at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            RequestDispatcher rd = request.getRequestDispatcher("getActiveInitiatives");
+            rd.forward(request, response);
         } catch (ClassNotFoundException ex) {
             response.setStatus(400);
         }
