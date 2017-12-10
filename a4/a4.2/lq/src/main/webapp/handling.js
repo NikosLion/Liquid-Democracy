@@ -868,6 +868,7 @@ function showInitiativeUI() {
     var initiativeHTML = '<button id="createInitiative" type="button" onclick="createInitiativeForm()">Create</button>\n\
                           <button id="showOwn" type="button" onclick="showOwnInitiatives()">Show Mine</button>\n\
                           <button id="getActive" type="button" onclick="getActiveInitiatives()">Active</button>\n\
+                          <button id="getExpired" type="button" onclick="getExpiredInitiatives()">Expired</button>\n\
                           <button id="back" type="button" onclick="showUserUI()">Back</button>';
     container.innerHTML = initiativeHTML;
 }
@@ -877,6 +878,7 @@ function createInitiativeForm() {
     var initiativeFormHTML = '<button id="createInitiative" type="button" onclick="createInitiativeForm()">Create</button>\n\
     <button id="showOwn" type="button" onclick="showOwnInitiatives()">Show Mine</button>\n\
     <button id="getActive" type="button" onclick="getActiveInitiatives()">Active</button>\n\
+    <button id="getExpired" type="button" onclick="getExpiredInitiatives()">Expired</button>\n\
     <button id="back" type="button" onclick="showUserUI()">Back</button>\n\
     <div id="formContainer">\n\
         <form id="initiativeForm">\n\
@@ -1009,6 +1011,7 @@ function getInitiativeForUpdate(title, creator, description, category, id){
     var initiativeFormHTML = '<button id="createInitiative" type="button" onclick="createInitiativeForm()">Create</button>\n\
     <button id="showOwn" type="button" onclick="showOwnInitiatives()">Show Mine</button>\n\
     <button id="getActive" type="button" onclick="getActiveInitiatives()">Active</button>\n\
+    <button id="getExpired" type="button" onclick="getExpiredInitiatives()">Expired</button>\n\
     <button id="back" type="button" onclick="showUserUI()">Back</button>\n\
     <div id="formContainer">\n\
         <form id="initiativeForm">\n\
@@ -1077,7 +1080,7 @@ function VoteUpdateVote(action, upvotedownvote, title, creator, username) {//act
     req.send('action=' + action + '&upvotedownvote=' + upvotedownvote + '&title=' + title + '&creator=' + creator + '&username=' + username);
 }
 
-function inactivateExpiredInitiatives(){
+function inactivateExpiredInitiatives() {
     var fromServlet = 'getActiveInitiatives';
     var req = new XMLHttpRequest();
     
@@ -1095,4 +1098,26 @@ function inactivateExpiredInitiatives(){
     req.open('POST', 'inactivateExpiredInitiatives', true);
     req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     req.send('fromServlet=' + fromServlet);
+}
+
+function getExpiredInitiatives() {
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function () {
+        if (req.readyState === 4 && req.status === 200) {
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log('Rendering expired Initiatives...');
+            var container = document.getElementById('container');
+            var expiredInitiativesHTML = req.responseText;
+            container.innerHTML = expiredInitiativesHTML;
+        } else if (req.readyState === 4 && req.status !== 200) {
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log('Rendering of expired Initiatives failed.');
+        }
+    };
+    req.open('POST', 'showExpiredInitiatives', true);
+    req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    req.send();
 }
