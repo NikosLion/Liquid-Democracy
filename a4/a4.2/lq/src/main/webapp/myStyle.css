@@ -10,7 +10,7 @@ and open the template in the editor.
 body {
     background: url("black.jpg");
     background-position: top;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-color: black;
 }
 
