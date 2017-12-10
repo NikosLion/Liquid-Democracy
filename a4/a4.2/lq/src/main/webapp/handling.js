@@ -1058,6 +1058,7 @@ function updateInitiative(){
     req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     req.send('creator=' + creator + '&title=' + newTitle + '&category=' + category + '&description=' + description + '&id=' + id);
 }
+
 function VoteUpdateVote(action, upvotedownvote, title, creator, username) {//action is vote or update
     var req = new XMLHttpRequest();
 
@@ -1078,4 +1079,24 @@ function VoteUpdateVote(action, upvotedownvote, title, creator, username) {//act
     req.open('POST', 'voteUpdateVote', true);
     req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     req.send('action=' + action + '&upvotedownvote=' + upvotedownvote + '&title=' + title + '&creator=' + creator + '&username=' + username);
+}
+
+function inactivateExpiredInitiatives(){
+    var fromServlet = 'getActiveInitiatives';
+    var req = new XMLHttpRequest();
+    
+    req.onreadystatechange = function () {
+        if (req.readyState === 4 && req.status === 200) {
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log('Inactivating expired Initiatives...');
+        } else if (req.readyState === 4 && req.status !== 200) {
+            console.log(req.status);
+            console.log(req.readyState);
+            console.log('Inactivation of expired Initiatives failed.');
+        }
+    };
+    req.open('POST', 'inactivateExpiredInitiatives', true);
+    req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    req.send('fromServlet=' + fromServlet);
 }

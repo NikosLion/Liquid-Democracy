@@ -256,7 +256,7 @@ public class showMyInitiatives extends HttpServlet {
                         + "                    </select><br>");
                 if (allInitiatives.get(i).getStatus() == 1) {//If its active vote
                     out.println("<button id='upvote' type='button' onclick='VoteUpdateVote('upvote'," + allInitiatives.get(i).getTitle() + "," + request.getParameter("creator") + ")'>upvote</button>");//isws na to kanoume apo js ta buttons gia to vote
-                    out.println("<button id='downvote' type='button' onclick='VoteUpdateVote/ve('downvote'," + allInitiatives.get(i).getTitle() + "," + request.getParameter("creator") + ")'>downvote</button>");
+                    out.println("<button id='downvote' type='button' onclick='VoteUpdateVote('downvote'," + allInitiatives.get(i).getTitle() + "," + request.getParameter("creator") + ")'>downvote</button>");
                 } else if (allInitiatives.get(i).getStatus() == 0) {//If its inactive user can make it active
                     out.println("<button id='update' type='button' onclick='getInitiativeForUpdate(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\",\"" + allInitiatives.get(i).getDescription() + "\",\"" + allInitiatives.get(i).getCategory() + "\",\"" + allInitiatives.get(i).getId() + "\")'>Update</button>");
                     out.println("<button id='activate' type='button' onclick='activateInitiative(\"" + allInitiatives.get(i).getTitle() + "\",\"" + allInitiatives.get(i).getCreator() + "\")'>Activate</button>");
