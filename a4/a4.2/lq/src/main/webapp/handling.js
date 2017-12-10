@@ -968,7 +968,7 @@ function showOwnInitiatives() {
     req.send('creator=' + creator);
 }
 
-function activateInitiative(title, creator) {
+function activateInitiative(title, creator, i) {
     var title = title;
     var creator = creator;
     var month = document.getElementById("edate" + i).querySelector("#month").value;
@@ -987,7 +987,6 @@ function activateInitiative(title, creator) {
             container.innerHTML = InitiativesHTML;
             var activeInitiativesHTML = req.responseText;
             container.innerHTML = activeInitiativesHTML;
-            console.log(req.responseText);
         } else if (req.readyState === 4 && req.status !== 200) {
             console.log(req.readyState);
             console.log(req.responseText);
