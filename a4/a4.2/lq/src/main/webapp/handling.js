@@ -1058,7 +1058,7 @@ function updateInitiative(){
     req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     req.send('creator=' + creator + '&title=' + newTitle + '&category=' + category + '&description=' + description + '&id=' + id);
 }
-function VoteUpdateInitiative(action, upvotedownvote, title, creator, username) {//action is vote or update
+function VoteUpdateVote(action, upvotedownvote, title, creator, username) {//action is vote or update
     var req = new XMLHttpRequest();
 
     req.onreadystatechange = function () {
