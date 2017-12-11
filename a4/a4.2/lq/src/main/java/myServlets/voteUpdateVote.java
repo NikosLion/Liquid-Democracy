@@ -53,23 +53,53 @@ public class voteUpdateVote extends HttpServlet {
                         Vote tmpVote = new Vote();
                         tmpVote.setId(VoteDB.getAllVotes().size() + 1);
                         tmpVote.setUser(username);
+                        List<Vote> userVotes = VoteDB.getVotes(username);
+                        boolean hasvoted = false;
+                        for (int k = 0; k < userVotes.size(); k++) {
+                            if (tmpVote.getId() == userVotes.get(k).getId()) {//If Delegator has already voted
+                                hasvoted = true;
+                            }
+                        }
                         if (upvotedownvote.equals("upvote")) {//Setting vote
-                            if (isdelegator.equals("true")) {
-                                tmpVote.setVote(true, false);//delegator upvote
+                            if (isdelegator != null && isdelegator.equals("true")) {
+                                if (hasvoted == true) {
+                                    if (tmpVote.getVotedBy() == 0) {//ama exei psifisei hdh kapoios delegator
+                                        //GIATI O DELEGATOR DEN THA PREPEI NA MPOREI NA ALLAKSEI THN PSIFO ENOS KANONIKOU XRHSTH
+                                        tmpVote.setVote(true, false);
+                                    } else {
+                                        //EDW ALERT OTI DN MPOREI ENAS DELEGATOR NA ALAKSEI THN PSIFO ENOS XRHSTH
+                                    }
+                                } else {
+                                    tmpVote.setVote(true, false);//delegator upvote
+                                }
                             } else {
                                 tmpVote.setVote(true, true);//user upvote
-                                System.out.println("user upvote");
                             }
                         } else if (upvotedownvote.equals("downvote")) {
-                            if (isdelegator.equals("true")) {
-                                tmpVote.setVote(false, false);//delegator downvote
+                            if (isdelegator != null && isdelegator.equals("true")) {
+                                if (hasvoted == true) {
+                                    if (tmpVote.getVotedBy() == 0) {//ama exei psifisei hdh kapoios delegator
+                                        //GIATI O DELEGATOR DEN THA PREPEI NA MPOREI NA ALLAKSEI THN PSIFO ENOS KANONIKOU XRHSTH
+                                        tmpVote.setVote(false, false);
+                                    } else {
+                                        //EDW ALERT OTI DN MPOREI ENAS DELEGATOR NA ALAKSEI THN PSIFO ENOS XRHSTH
+                                    }
+                                } else {
+                                    tmpVote.setVote(false, false);//delegator downvote
+                                }
                             } else {
                                 tmpVote.setVote(false, true);//user downvote
-                                System.out.println("user downvote");
                             }
                         }
                         tmpVote.setInitiativeID(id);
                         tmpVote.setCreated(new Date());
+                        if (hasvoted == true) {
+                            VoteDB.updateVote(tmpVote);
+                        } else {
+                            VoteDB.addVote(tmpVote);
+                        }
+                        System.out.println("tmpVote is : " + tmpVote);
+                        System.out.println("in DB there is: " + VoteDB.getVote(tmpVote.getId()));
                         break;
                     }
                 }
@@ -92,6 +122,7 @@ public class voteUpdateVote extends HttpServlet {
                                         }
                                     } else {//user upvote
                                         voteupdate.setVote(true, true);
+
                                     }
                                 } else {//downvote
                                     if (isdelegator.equals(true)) {//delegator downvote
@@ -105,6 +136,7 @@ public class voteUpdateVote extends HttpServlet {
                                         voteupdate.setVote(false, true);
                                     }
                                 }
+                                voteupdate.setModified(new Date());
                                 VoteDB.updateVote(voteupdate);//EDW KANW UPDATE STO VOTE MESA STO DB
                                 break;
                             }
@@ -115,7 +147,7 @@ public class voteUpdateVote extends HttpServlet {
                 out.println("Wrong parameter: action");
                 response.setStatus(400);
             }
-            RequestDispatcher redirect = request.getRequestDispatcher("getActiveInitiatives");
+            RequestDispatcher redirect = request.getRequestDispatcher("showResults");
             redirect.forward(request, response);
         } catch (ClassNotFoundException ex) {
             response.setStatus(400);
