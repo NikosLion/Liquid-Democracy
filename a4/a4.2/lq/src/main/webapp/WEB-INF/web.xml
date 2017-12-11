@@ -68,6 +68,10 @@
         <servlet-name>updateInitiative</servlet-name>
         <servlet-class>myServlets.updateInitiative</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>showResults</servlet-name>
+        <servlet-class>myServlets.showResults</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>usernameCheck</servlet-name>
         <url-pattern>/usernameCheck</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>updateInitiative</servlet-name>
         <url-pattern>/updateInitiative</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>showResults</servlet-name>
+        <url-pattern>/showResults</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

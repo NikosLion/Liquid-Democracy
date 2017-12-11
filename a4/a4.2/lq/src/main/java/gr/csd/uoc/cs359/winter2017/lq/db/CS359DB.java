@@ -16,10 +16,10 @@ import java.sql.SQLException;
 public class CS359DB {
 
     private static final String URL = "jdbc:mariadb://83.212.108.176";
-    private static final String DATABASE = "csd2924";
+    private static final String DATABASE = "csd2900";
     private static final int PORT = 3306;
-    private static final String UNAME = "csd2924";
-    private static final String PASSWD = "a1irFWeZk7";
+    private static final String UNAME = "csd2900";
+    private static final String PASSWD = "i3XB5bKDt1";
 
     /**
      * Attempts to establish a database connection Using mariadb
