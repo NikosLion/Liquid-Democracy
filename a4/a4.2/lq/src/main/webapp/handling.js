@@ -1084,7 +1084,6 @@ function VoteUpdateVote(action, upvotedownvote, title, creator, username) {//act
 }
 
 function inactivateExpiredInitiatives() {
-    var fromServlet = 'getActiveInitiatives';
     var req = new XMLHttpRequest();
     
     req.onreadystatechange = function () {
@@ -1092,6 +1091,10 @@ function inactivateExpiredInitiatives() {
             console.log(req.status);
             console.log(req.readyState);
             console.log('Inactivating expired Initiatives...');
+            console.log(req.responseText);
+            var container = document.getElementById('container');
+            var refreshedHTML = req.responseText;
+            container.innerHTML = refreshedHTML;
         } else if (req.readyState === 4 && req.status !== 200) {
             console.log(req.status);
             console.log(req.readyState);
@@ -1100,7 +1103,7 @@ function inactivateExpiredInitiatives() {
     };
     req.open('POST', 'inactivateExpiredInitiatives', true);
     req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    req.send('fromServlet=' + fromServlet);
+    req.send();
 }
 
 function getExpiredInitiatives() {
@@ -1120,7 +1123,7 @@ function getExpiredInitiatives() {
             console.log('Rendering of expired Initiatives failed.');
         }
     };
-    req.open('POST', 'showExpiredInitiatives', true);
+    req.open('POST', 'showResults', true);
     req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     req.send();
 }

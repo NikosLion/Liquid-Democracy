@@ -50,7 +50,7 @@ public class voteUpdateVote extends HttpServlet {
                     if (activeInitiatives.get(i).getTitle().equals(title) && activeInitiatives.get(i).getCreator().equals(creator)) {
                         int id = activeInitiatives.get(i).getId();//ara exoume to id tou initiative pou theloume na pame kai na kanoume vote
                         Vote tmpVote = new Vote();
-                        tmpVote.setId(VoteDB.getAllVotes().size());
+                        tmpVote.setId(VoteDB.getAllVotes().size() + 1);
                         tmpVote.setUser(username);
                         if (upvotedownvote.equals("upvote")) {//Setting vote
                             if (isdelegator.equals("true")) {
