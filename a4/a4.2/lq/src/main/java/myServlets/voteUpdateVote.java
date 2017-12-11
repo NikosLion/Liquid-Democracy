@@ -48,27 +48,30 @@ public class voteUpdateVote extends HttpServlet {
             if (action.equals("vote")) {
                 for (int i = 0; i < activeInitiatives.size(); i++) {
                     if (activeInitiatives.get(i).getTitle().equals(title) && activeInitiatives.get(i).getCreator().equals(creator)) {
+                        System.out.println("vrhke to initiative");
                         int id = activeInitiatives.get(i).getId();//ara exoume to id tou initiative pou theloume na pame kai na kanoume vote
                         Vote tmpVote = new Vote();
-                        tmpVote.setId(VoteDB.getAllVotes().size());
+                        tmpVote.setId(VoteDB.getAllVotes().size() + 1);
                         tmpVote.setUser(username);
                         if (upvotedownvote.equals("upvote")) {//Setting vote
                             if (isdelegator.equals("true")) {
                                 tmpVote.setVote(true, false);//delegator upvote
                             } else {
                                 tmpVote.setVote(true, true);//user upvote
+                                System.out.println("user upvote");
                             }
                         } else if (upvotedownvote.equals("downvote")) {
                             if (isdelegator.equals("true")) {
                                 tmpVote.setVote(false, false);//delegator downvote
                             } else {
                                 tmpVote.setVote(false, true);//user downvote
+                                System.out.println("user downvote");
                             }
                         }
                         tmpVote.setInitiativeID(id);
                         tmpVote.setCreated(new Date());
+                        break;
                     }
-                    break;
                 }
             } else if (action.equals("updatevote")) {
                 for (int i = 0; i < activeInitiatives.size(); i++) {
@@ -112,8 +115,8 @@ public class voteUpdateVote extends HttpServlet {
                 out.println("Wrong parameter: action");
                 response.setStatus(400);
             }
-            RequestDispatcher rd = request.getRequestDispatcher("getActiveInitiatives");
-            rd.forward(request, response);
+            RequestDispatcher redirect = request.getRequestDispatcher("getActiveInitiatives");
+            redirect.forward(request, response);
         } catch (ClassNotFoundException ex) {
             response.setStatus(400);
         }

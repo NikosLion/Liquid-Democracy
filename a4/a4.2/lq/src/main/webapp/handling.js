@@ -1084,7 +1084,6 @@ function VoteUpdateVote(action, upvotedownvote, title, creator, username) {//act
 }
 
 function inactivateExpiredInitiatives() {
-    var fromServlet = 'getActiveInitiatives';
     var req = new XMLHttpRequest();
     
     req.onreadystatechange = function () {
@@ -1100,7 +1099,7 @@ function inactivateExpiredInitiatives() {
     };
     req.open('POST', 'inactivateExpiredInitiatives', true);
     req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    req.send('fromServlet=' + fromServlet);
+    req.send();
 }
 
 function getExpiredInitiatives() {

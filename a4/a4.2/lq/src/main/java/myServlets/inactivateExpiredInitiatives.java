@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -82,9 +83,13 @@ public class inactivateExpiredInitiatives extends HttpServlet {
                 Date currentDate = new Date();//nmz pws etsi vazei mesa apo default to current date not sure tho
                 Date expiration = allactiveInitiatives.get(i).getExpires();
                 if (currentDate.after(expiration)) {
-                    allactiveInitiatives.get(i).setStatus(2);//2 is the code for initiative ended
+                    Initiative tmpInitiative = allactiveInitiatives.get(i);//2 is the code for initiative ended
+                    tmpInitiative.setStatus(2);
+                    InitiativeDB.updateInitiative(tmpInitiative);
                 }
             }
+            RequestDispatcher rd = request.getRequestDispatcher("getActiveInitiatives");
+            rd.forward(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(getAllUsers.class.getName()).log(Level.SEVERE, null, ex);
             response.setStatus(400);
