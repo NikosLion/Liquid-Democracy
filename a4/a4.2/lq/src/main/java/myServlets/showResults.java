@@ -52,6 +52,8 @@ public class showResults extends HttpServlet {
                     out.println("</html>");
                     return;
                 } else {
+                    out.println("<p>" + "Results: " + "</p>");
+                    out.println("<button id='refresh' type='button' onclick='inactivateExpiredInitiatives();getExpiredInitiatives()'>Refresh</button>");
                     for (int i = 0; i < expiredInitiatives.size(); i++) {
                         out.println("<h2>Title</h2>");
                         out.println("<p>" + expiredInitiatives.get(i).getTitle() + "</p>");

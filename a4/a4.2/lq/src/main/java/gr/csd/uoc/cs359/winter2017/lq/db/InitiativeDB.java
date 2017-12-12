@@ -187,17 +187,34 @@ public class InitiativeDB {
             Connection con = CS359DB.getConnection();
             StringBuilder insQuery = new StringBuilder();
 
-            insQuery.append("INSERT INTO ")
-                    .append(" initiatives (CREATORID, TITLE, CATEGORY, DESCRIPTION, EXPIRES,"
-                            + "STATUS) ")
-                    .append(" VALUES (")
-                    .append("'").append(initiative.getCreator()).append("',")
-                    .append("'").append(initiative.getTitle()).append("',")
-                    .append("'").append(initiative.getCategory()).append("',")
-                    .append("'").append(initiative.getDescription()).append("',")
-                    .append("'").append(initiative.getExpires()).append("',")
-                    .append("'").append(initiative.getStatus()).append("');");
+            Timestamp expireDate = null;
+            if (initiative.getExpires() != null) {
+                expireDate = new Timestamp(initiative.getExpires().getTime());
+            }
 
+            if (expireDate != null) {
+                insQuery.append("INSERT INTO ")
+                        .append(" initiatives (CREATORID, TITLE, CATEGORY, DESCRIPTION, EXPIRES,"
+                                + "STATUS) ")
+                        .append(" VALUES (")
+                        .append("'").append(initiative.getCreator()).append("',")
+                        .append("'").append(initiative.getTitle()).append("',")
+                        .append("'").append(initiative.getCategory()).append("',")
+                        .append("'").append(initiative.getDescription()).append("',")
+                        .append("'").append(expireDate).append("',")
+                        .append("'").append(initiative.getStatus()).append("');");
+            } else {
+                insQuery.append("INSERT INTO ")
+                        .append(" initiatives (CREATORID, TITLE, CATEGORY, DESCRIPTION,"
+                                + "STATUS) ")
+                        .append(" VALUES (")
+                        .append("'").append(initiative.getCreator()).append("',")
+                        .append("'").append(initiative.getTitle()).append("',")
+                        .append("'").append(initiative.getCategory()).append("',")
+                        .append("'").append(initiative.getDescription()).append("',")
+                        .append("'").append(initiative.getStatus()).append("');");
+
+            }
             String generatedColumns[] = {"ID"};
             PreparedStatement stmtIns = con.prepareStatement(insQuery.toString(), generatedColumns);
             stmtIns.executeUpdate();
@@ -271,7 +288,6 @@ public class InitiativeDB {
         return initiative;
     }
 
-
     /**
      * Updates information for specific initiative
      *
@@ -292,8 +308,9 @@ public class InitiativeDB {
             StringBuilder insQuery = new StringBuilder();
 
             Timestamp expireDate = null;
-            if (initiative.getExpires() != null)
+            if (initiative.getExpires() != null) {
                 expireDate = new Timestamp(initiative.getExpires().getTime());
+            }
 
             insQuery.append("UPDATE initiatives ")
                     .append(" SET ")

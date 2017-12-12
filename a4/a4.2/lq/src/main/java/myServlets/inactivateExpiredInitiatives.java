@@ -8,7 +8,6 @@ package myServlets;
 import gr.csd.uoc.cs359.winter2017.lq.db.InitiativeDB;
 import gr.csd.uoc.cs359.winter2017.lq.model.Initiative;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,18 +35,23 @@ public class inactivateExpiredInitiatives extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet inactivateExpiredInitiatives</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet inactivateExpiredInitiatives at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try {
+            List<Initiative> allactiveInitiatives = InitiativeDB.getInitiativesWithStatus(1);
+            for (int i = 0; i < allactiveInitiatives.size(); i++) {
+                Date currentDate = new Date();//nmz pws etsi vazei mesa apo default to current date not sure tho
+                Date expiration = allactiveInitiatives.get(i).getExpires();
+                //System.out.println("Comparing " + currentDate + "with" + expiration);
+                if (currentDate.compareTo(expiration) > 0) {
+                    Initiative tmpInitiative = allactiveInitiatives.get(i);//2 is the code for initiative ended
+                    tmpInitiative.setStatus(2);
+                    InitiativeDB.updateInitiative(tmpInitiative);
+                }
+            }
+            RequestDispatcher rd = request.getRequestDispatcher("getActiveInitiatives");
+            rd.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(getAllUsers.class.getName()).log(Level.SEVERE, null, ex);
+            response.setStatus(400);
         }
     }
 
@@ -77,23 +81,7 @@ public class inactivateExpiredInitiatives extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            List<Initiative> allactiveInitiatives = InitiativeDB.getInitiativesWithStatus(1);
-            for (int i = 0; i < allactiveInitiatives.size(); i++) {
-                Date currentDate = new Date();//nmz pws etsi vazei mesa apo default to current date not sure tho
-                Date expiration = allactiveInitiatives.get(i).getExpires();
-                if (currentDate.after(expiration)) {
-                    Initiative tmpInitiative = allactiveInitiatives.get(i);//2 is the code for initiative ended
-                    tmpInitiative.setStatus(2);
-                    InitiativeDB.updateInitiative(tmpInitiative);
-                }
-            }
-            RequestDispatcher rd = request.getRequestDispatcher("getActiveInitiatives");
-            rd.forward(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(getAllUsers.class.getName()).log(Level.SEVERE, null, ex);
-            response.setStatus(400);
-        }
+        processRequest(request, response);
     }
 
     /**
