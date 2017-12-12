@@ -50,97 +50,31 @@ public class voteUpdateVote extends HttpServlet {
                     if (activeInitiatives.get(i).getTitle().equals(title) && activeInitiatives.get(i).getCreator().equals(creator)) {
                         System.out.println("vrhke to initiative");
                         int id = activeInitiatives.get(i).getId();//ara exoume to id tou initiative pou theloume na pame kai na kanoume vote
-                        Vote tmpVote = new Vote();
-                        tmpVote.setId(VoteDB.getAllVotes().size() + 1);
-                        tmpVote.setUser(username);
-                        List<Vote> userVotes = VoteDB.getVotes(username);
-                        boolean hasvoted = false;
-                        for (int k = 0; k < userVotes.size(); k++) {
-                            if (tmpVote.getId() == userVotes.get(k).getId()) {//If Delegator has already voted
-                                hasvoted = true;
-                            }
-                        }
-                        if (upvotedownvote.equals("upvote")) {//Setting vote
-                            if (isdelegator != null && isdelegator.equals("true")) {
-                                if (hasvoted == true) {
-                                    if (tmpVote.getVotedBy() == 0) {//ama exei psifisei hdh kapoios delegator
-                                        //GIATI O DELEGATOR DEN THA PREPEI NA MPOREI NA ALLAKSEI THN PSIFO ENOS KANONIKOU XRHSTH
-                                        tmpVote.setVote(true, false);
-                                    } else {
-                                        //EDW ALERT OTI DN MPOREI ENAS DELEGATOR NA ALAKSEI THN PSIFO ENOS XRHSTH
-                                    }
-                                } else {
-                                    tmpVote.setVote(true, false);//delegator upvote
-                                }
-                            } else {
+                        Vote tmpVote = VoteDB.getVote(username, id);
+                        if (tmpVote == null) {//If he has not voted
+                            tmpVote = new Vote();
+                            tmpVote.setId(VoteDB.getAllVotes().size() + 1);
+                            tmpVote.setUser(username);
+                            if (upvotedownvote.equals("upvote")) {//Setting vote
                                 tmpVote.setVote(true, true);//user upvote
-                            }
-                        } else if (upvotedownvote.equals("downvote")) {
-                            if (isdelegator != null && isdelegator.equals("true")) {
-                                if (hasvoted == true) {
-                                    if (tmpVote.getVotedBy() == 0) {//ama exei psifisei hdh kapoios delegator
-                                        //GIATI O DELEGATOR DEN THA PREPEI NA MPOREI NA ALLAKSEI THN PSIFO ENOS KANONIKOU XRHSTH
-                                        tmpVote.setVote(false, false);
-                                    } else {
-                                        //EDW ALERT OTI DN MPOREI ENAS DELEGATOR NA ALAKSEI THN PSIFO ENOS XRHSTH
-                                    }
-                                } else {
-                                    tmpVote.setVote(false, false);//delegator downvote
-                                }
-                            } else {
+                            } else if (upvotedownvote.equals("downvote")) {
                                 tmpVote.setVote(false, true);//user downvote
                             }
-                        }
-                        tmpVote.setInitiativeID(id);
-                        tmpVote.setCreated(new Date());
-                        if (hasvoted == true) {
-                            VoteDB.updateVote(tmpVote);
-                        } else {
+                            tmpVote.setInitiativeID(id);
+                            tmpVote.setCreated(new Date());
                             VoteDB.addVote(tmpVote);
-                        }
-                        System.out.println("tmpVote is : " + tmpVote);
-                        System.out.println("in DB there is: " + VoteDB.getVote(tmpVote.getId()));
-                        break;
-                    }
-                }
-            } else if (action.equals("updatevote")) {
-                for (int i = 0; i < activeInitiatives.size(); i++) {
-                    if (activeInitiatives.get(i).getTitle().equals(title) && activeInitiatives.get(i).getCreator().equals(creator)) {
-                        int initiativeid = activeInitiatives.get(i).getId();//ara exoume to id tou initiative pou theloume na pame kai na kanoume vote
-                        List<Vote> allVotes = VoteDB.getAllVotes();
-                        for (int j = 0; j < allVotes.size(); j++) {
-                            if (allVotes.get(j).getInitiativeID() == initiativeid && allVotes.get(j).getUser().equals(username)) {//We found the vote we 
-                                int voteid = allVotes.get(j).getId();
-                                Vote voteupdate = VoteDB.getVote(voteid);
-                                if (upvotedownvote.equals("upvote")) {
-                                    if (isdelegator.equals(true)) {//delegator upvote
-                                        if (voteupdate.isVotedBy() == false) {//If user has voted and delegator tries to vote
-                                            out.println("Delegator tried to update vote for user");
-                                            response.setStatus(400);
-                                        } else {
-                                            voteupdate.setVote(true, false);
-                                        }
-                                    } else {//user upvote
-                                        voteupdate.setVote(true, true);
-
-                                    }
-                                } else {//downvote
-                                    if (isdelegator.equals(true)) {//delegator downvote
-                                        if (voteupdate.isVotedBy() == false) {//If user has voted and delegator tries to vote
-                                            out.println("Delegator tried to update vote for user");
-                                            response.setStatus(400);
-                                        } else {
-                                            voteupdate.setVote(false, false);
-                                        }
-                                    } else {//user downvote
-                                        voteupdate.setVote(false, true);
-                                    }
-                                }
-                                voteupdate.setModified(new Date());
-                                VoteDB.updateVote(voteupdate);//EDW KANW UPDATE STO VOTE MESA STO DB
-                                break;
+                        } else {//If he wants to update his vote
+                            tmpVote.setModified(new Date());
+                            if (upvotedownvote.equals("upvote")) {//Setting vote
+                                tmpVote.setVote(true, true);//user upvote
+                            } else if (upvotedownvote.equals("downvote")) {
+                                tmpVote.setVote(false, true);//user downvote
                             }
+                            VoteDB.updateVote(tmpVote);
                         }
+                        //System.out.println("tmpVote is : " + tmpVote);
+                        //System.out.println("in DB there is: " + VoteDB.getVote(tmpVote.getId()));
+                        break;
                     }
                 }
             } else {
