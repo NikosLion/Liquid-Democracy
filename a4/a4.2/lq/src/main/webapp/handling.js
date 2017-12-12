@@ -460,8 +460,8 @@ function register() {
                 activeUser = req.getResponseHeader("username");
                 activeEmail = req.getResponseHeader("email");
                 //new
-                document.cookie = 'username=' + activeUser;
-                document.cookie = 'email=' + activeEmail;
+                activeUser = req.getResponseHeader("username");
+                activeEmail = req.getResponseHeader("email");
                 console.log(activeUser);
                 console.log(activeEmail);
                 console.log(document.cookie);
