@@ -46,6 +46,10 @@ public class showResults extends HttpServlet {
                 out.println("<head>");
                 out.println("</head>");
                 out.println("<body>");
+                out.println("<button id=\"createInitiative\" type=\"button\" onclick=\"createInitiativeForm()\">Create</button>\n"
+                        + "    <button id=\"showOwn\" type=\"button\" onclick=\"showOwnInitiatives()\">Show Mine</button>\n"
+                        + "    <button id=\"getActive\" type=\"button\" onclick=\"getActiveInitiatives()\">Active</button>\n"
+                        + "    <button id=\"getExpired\" type=\"button\" onclick=\"getExpiredInitiatives()\">Expired</button>");
                 if (expiredInitiatives.isEmpty()) {
                     out.println("<p>" + "No results yet, initiatives might still be active." + "</p>");
                     out.println("</body>");

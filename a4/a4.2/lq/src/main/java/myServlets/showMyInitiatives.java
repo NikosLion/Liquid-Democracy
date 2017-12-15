@@ -46,6 +46,10 @@ public class showMyInitiatives extends HttpServlet {
             out.println("<title>My Initiatives:</title>");
             out.println("</head>");
             out.println("<body>");
+            out.println("<button id=\"createInitiative\" type=\"button\" onclick=\"createInitiativeForm()\">Create</button>\n"
+                    + "    <button id=\"showOwn\" type=\"button\" onclick=\"showOwnInitiatives()\">Show Mine</button>\n"
+                    + "    <button id=\"getActive\" type=\"button\" onclick=\"getActiveInitiatives()\">Active</button>\n"
+                    + "    <button id=\"getExpired\" type=\"button\" onclick=\"getExpiredInitiatives()\">Expired</button>");
             for (int i = 0; i < allInitiatives.size(); i++) {
                 out.println("<h2>Title</h2>");
                 out.println("<p>" + allInitiatives.get(i).getTitle() + "</p>");

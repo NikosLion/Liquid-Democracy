@@ -1,0 +1,389 @@
+Sto PC enos apo tous duo mas to Run Project sto Netbeans anoigei ston browser to
+http://localhost:8084/lq/ anti gia http://localhost:8084/lq/lq.html pou einai to
+default page tou project.Epishs, kapoies fores argei na ginei expire ena initiative
+kai ginetai ena lepto argotera apo oti tha eprepe.
+
+Askhsh 3 - Rest
+
+Ta resources pou mas endiaferoun einai user, policy initiatives kai vote.
+
+Ta URIs gia auta ta resources einai ta ekshs:
+
+												GET		PUT		POST 	DELETE
+------------------------------------------------------------------------------
+/user 				    						Yes 	No 		Yes 	No
+/user/{id}  		    						Yes		Yes 	No 		No
+/user/{id}/initiatives  						Yes		No 		Yes 	No		
+/user/{id}/initiatives/{id} 					Yes		Yes		No 		No		
+/user/{id}/initiatives/inactive  				Yes 	No 		No 		No		
+/user/{id}/initiatives/inactive/{id} 			No 		Yes 	No 		No  	
+/user/{id}/initiatives/active  					Yes 	No 		No 		No		
+/user/{id}/initiatives/active/{id}  			Yes 	No  	No 		No      
+/user/{id}/initiatives/active/{id}/vote  		No 		No   	Yes 	No 		
+/user/{id}/initiatives/active/{id}/vote/{id} 	Yes 	Yes 	No 		No
+/user/{id}/initiatives/expired 					Yes 	No 		No 		No		
+
+Oi HTTP methodoi pou tha xrhsimopoihsoume einai:
+
+|-----------------------------------------------------------------------|
+|       REQUEST							          RESPONSE              |
+|-----------------------------------------------------------------------|
+
+GET /user						                 200 OK
+ex. GET /user 
+------------------------------------------------------------------------
+                                                 {
+                                                     "user": [
+                                                         {
+                                                             "username": "id1",
+                                                             ...
+                                                             "username": "idn"
+                                                         }
+                                                     ]
+                                                 }
+
+POST /user                                       201 CREATED 
+ex. POST /user
+-------------------------------------------------------------------------
+{
+    "username": "hy359user",
+    "email": "359@csd.uoc.gr",
+    "pass1": "ssssss7^",
+    "name": "Markos",
+    "lastname": "Seferlis",
+    "city": "Hrakleio",
+    "profession": "Computer Engineer",
+    "day": "08",
+    "month": "05",
+    "year": "1993",
+    "country": "Greece",
+    "address": "Voutes",
+    "interests": "Web programming",
+    "genInfo": "Undergraduate"
+}
+                                                 Location: /user/1
+                                                 {
+                                                     "id": "1",
+                                                     "username": "hy359user",
+                                                     "email": "359@csd.uoc.gr",
+                                                     "pass1": "ssssss7^",
+                                                     "name": "Markos",
+                                                     "lastname": "Seferlis",
+                                                     "city": "Hrakleio",
+                                                     "profession": "Computer Engineer",
+                                                     "birthdate": "08/05/1993",
+                                                     "country": "Greece",
+                                                     "address": "Voutes",
+                                                     "interests": "Web programming",
+                                                     "genInfo": "Undergraduate"
+                                                 }
+
+GET /user/{id}                                   200 OK 
+ex. GET /user/1
+-----------------------------------------------------------------------
+                                                 {
+                                                     "id": "1",
+                                                     "username": "hy359user",
+                                                     "email": "359@csd.uoc.gr",
+                                                     "pass1": "ssssss7^",
+                                                     "name": "Markos",
+                                                     "lastname": "Seferlis",
+                                                     "city": "Hrakleio",
+                                                     "profession": "Computer Engineer",
+                                                     "birthdate": "08/05/1993",
+                                                     "country": "Greece",
+                                                     "address": "Voutes",
+                                                     "interests": "Web programming",
+                                                     "genInfo": "Undergraduate"
+                                                 }
+
+PUT /user/{id}                                   200 OK 
+ex. PUT /user/1
+-----------------------------------------------------------------------
+{
+    "username": "hy359user",
+    "email": "NEWMAIL@csd.uoc.gr",
+    "pass1": "ssssss7^",
+    "name": "Markos",
+    "lastname": "Seferlis",
+    "city": "Hrakleio",
+    "profession": "Computer Engineer",
+    "day": "08",
+    "month": "05",
+    "year": "1993",
+    "country": "Greece",
+    "address": "Voutes",
+    "interests": "Web programming",
+    "genInfo": "Undergraduate"
+}
+                                                 {
+                                                     "id": "1",
+                                                     "username": "hy359user",
+                                                     "email": "NEWMAIL@csd.uoc.gr",
+                                                     "pass1": "ssssss7^",
+                                                     "name": "Markos",
+                                                     "lastname": "Seferlis",
+                                                     "city": "Hrakleio",
+                                                     "profession": "Computer Engineer",
+                                                     "birthdate": "08/05/1993",
+                                                     "country": "Greece",
+                                                     "address": "Voutes",
+                                                     "interests": "Web programming",
+                                                     "genInfo": "Undergraduate"
+                                                 }
+
+GET /user/{id}/initiatives                       200 OK 
+ex. GET /user/1/initiatives
+-----------------------------------------------------------------------
+                                                 {
+                                                   "initiatives":
+                                                       [
+                                                         {
+                                                             "id": "1",
+                                                             "creator": "hy359user",
+                                                             "category": "Mycategory",
+                                                             "title": "Mytitle",
+                                                             "description": "Mydescription",
+                                                             "status": "0",
+                                                             "created": "15/12/2017 13:54:20",
+                                                             "modified": "15/12/2017 13:54:20",
+                                                             "expires": ""
+                                                         },
+                                                          {
+                                                             "id": "2",
+                                                             "creator": "hy359user",
+                                                             "category": "Mycategory2",
+                                                             "title": "Mytitle2",
+                                                             "description": "Mydescription2",
+                                                             "status": "0",
+                                                             "created": "15/12/2017 13:55:20",
+                                                             "modified": "15/12/2017 13:55:20",
+                                                             "expires": ""
+                                                         }
+                                                       ]
+                                                 }
+
+POST /user/{id}/initiatives                      201 CREATED 
+ex. POST /user/1/initiatives
+-----------------------------------------------------------------------
+{
+    "creator": "hy359user",
+    "category": "Newcategory",
+    "title": "Newtitle",
+    "description": "Newdescription",
+}
+                                                Location: /user/1/initiatives/3
+                                                 {
+                                                     "id": "3",
+                                                     "creator": "hy359user",
+                                                     "category": "Newcategory",
+                                                     "title": "Newtitle",
+                                                     "description": "Newdescription",
+                                                     "status": "0",
+                                                     "created": "15/12/2017 13:59:10",
+                                                     "modified": "15/12/2017 13:59:10",
+                                                     "expires": ""
+                                                 }
+
+GET /user/{id}/initiatives/{id}                  200 OK
+ex. GET /user/1/initiatives/3
+-----------------------------------------------------------------------
+                                                 {
+                                                     "creator": "hy359user",
+                                                     "category": "Newcategory",
+                                                     "title": "Newtitle",
+                                                     "description": "Newdescription",
+                                                     "status": "0",
+                                                     "created": "15/12/2017 13:59:10",
+                                                     "modified": "15/12/2017 13:59:10",
+                                                     "expires": ""
+                                                 }
+
+PUT /user/{id}/initiatives/{id}                  200 OK
+ex. PUT /user/1/initiatives/3
+-----------------------------------------------------------------------
+{
+    "category": "Categorychanged",
+    "title": "Titlechanged",
+    "description": "Descriptionchanged",
+    "status": "0"
+}
+                                                 {
+                                                     "id": "3",
+                                                     "creator": "hy359user",
+                                                     "category": "Categorychanged",
+                                                     "title": "Titlechanged",
+                                                     "description": "Descriptionchanged",
+                                                     "status": "0",
+                                                     "created": "15/12/2017 13:59:10",
+                                                     "modified": "15/12/2017 14:12:30",
+                                                     "expires": ""
+                                                 }
+
+GET /user/{id}/initiatives/inactive              200 OK
+ex. GET /user/1/initiatives/inactive
+-----------------------------------------------------------------------
+                                                 {
+                                                    "inactive":
+                                                         [
+                                                            {
+                                                                "id": "1",
+                                                                "creator": "hy359user",
+                                                                "category": "Mycategory",
+                                                                "title": "Mytitle",
+                                                                "description": "Mydescription",
+                                                                "status": "0",
+                                                                "created": "15/12/2017 13:54:20",
+                                                                "modified": "15/12/2017 13:54:20",
+                                                                "expires": ""
+                                                            },
+                                                             {
+                                                                "id": "2",
+                                                                "creator": "hy359user",
+                                                                "category": "Mycategory2",
+                                                                "title": "Mytitle2",
+                                                                "description": "Mydescription2",
+                                                                "status": "0",
+                                                                "created": "15/12/2017 13:55:20",
+                                                                "modified": "15/12/2017 13:55:20",
+                                                                "expires": ""
+                                                            },
+                                                             {
+                                                                 "id": "3"
+                                                                 "creator": "hy359user",
+                                                                 "category": "Categorychanged",
+                                                                 "title": "Titlechanged",
+                                                                 "description": "Descriptionchanged",
+                                                                 "status": "0",
+                                                                 "created": "15/12/2017 13:59:10",
+                                                                 "modified": "15/12/2017 14:12:30",
+                                                                 "expires": ""
+                                                             }
+                                                         ]
+                                                 }
+
+PUT /user/{id}/initiatives/inactive/{id}         200 OK
+ex. PUT /user/1/initiatives/inactive/3
+-----------------------------------------------------------------------
+{
+    "status": "1",
+    "year": "2017",
+    "month": "12",
+    "day": "15",
+    "hour": "15",
+    "minute": "00",
+    "second": "25",
+}
+                                                 {
+                                                     "id": "3"
+                                                     "creator": "hy359user",
+                                                     "category": "Categorychanged",
+                                                     "title": "Titlechanged",
+                                                     "description": "Descriptionchanged",
+                                                     "status": "1",
+                                                     "created": "15/12/2017 13:59:10",
+                                                     "modified": "15/12/2017 14:12:30",
+                                                     "expires": "15/12/2017 15:00:25"
+                                                 }
+
+GET /user/{id}/initiatives/active                200 OK
+ex. GET /user/1/initiatives/active
+-----------------------------------------------------------------------
+                                                 {
+                                                     "id": "3"
+                                                     "creator": "hy359user",
+                                                     "category": "Categorychanged",
+                                                     "title": "Titlechanged",
+                                                     "description": "Descriptionchanged",
+                                                     "status": "1",
+                                                     "created": "15/12/2017 13:59:10",
+                                                     "modified": "15/12/2017 14:12:30",
+                                                     "expires": "15/12/2017 15:00:25"
+                                                 }
+
+GET /user/{id}/initiatives/active/{id}           200 OK
+ex. GET /user/1/initiatives/active/3
+-----------------------------------------------------------------------
+                                                 {
+                                                     "id": "3"
+                                                     "creator": "hy359user",
+                                                     "category": "Categorychanged",
+                                                     "title": "Titlechanged",
+                                                     "description": "Descriptionchanged",
+                                                     "status": "1",
+                                                     "created": "15/12/2017 13:59:10",
+                                                     "modified": "15/12/2017 14:12:30",
+                                                     "expires": "15/12/2017 15:00:25"
+                                                 }
+
+POST /user/{id}/initiatives/active/{id}/vote               201 CREATED
+ex. POST /user/1/initiatives/active/3/vote
+-----------------------------------------------------------------------
+{
+    "vote": "downvote"
+}
+                                                Location: /user/1/initiatives/active/3/vote/1
+                                                 {
+                                                     "id": "1",
+                                                     "user": "hy359user",
+                                                     "delegator": "hy359user",
+                                                     "vote": "0",
+                                                     "votedBy": "1",
+                                                     "initiativeID": "3",
+                                                     "created": "15/12/2017 14:30:20",
+                                                     "modified": ""
+                                                 }
+
+GET /user/{id}/initiatives/active/{id}/vote/{id}           200 OK
+ex. GET /user/1/initiatives/active/3/vote/1
+-----------------------------------------------------------------------
+                                                           {
+                                                               "id": "1",
+                                                               "user": "hy359user",
+                                                               "delegator": "hy359user",
+                                                               "vote": "1",
+                                                               "votedBy": "1",
+                                                               "initiativeID": "3",
+                                                               "created": "15/12/2017 14:30:20",
+                                                               "modified": ""
+                                                           }
+
+PUT /user/{id}/initiatives/active/{id}/vote/{id}           200 OK
+ex. PUT /user/1/initiatives/active/3/vote/1
+-----------------------------------------------------------------------
+{
+    "vote": "upvote"
+}
+                                                           {
+                                                               "id": "1",
+                                                               "user": "hy359user",
+                                                               "delegator": "hy359user",
+                                                               "vote": "1",
+                                                               "votedBy": "1",
+                                                               "initiativeID": "3",
+                                                               "created": "15/12/2017 14:30:20",
+                                                               "modified": "15/12/2017 14:35:10"
+                                                           }
+
+GET /user/{id}/initiatives/expired                         200 OK
+ex. GET /user/1/initiatives/expired 
+    at 15/12/2017 15:05:00
+-----------------------------------------------------------------------
+                                                           {
+                                                               "id": "3"
+                                                               "creator": "hy359user",
+                                                               "category": "Categorychanged",
+                                                               "title": "Titlechanged",
+                                                               "description": "Descriptionchanged",
+                                                               "status": "2",
+                                                               "created": "15/12/2017 13:59:10",
+                                                               "modified": "15/12/2017 14:12:30",
+                                                               "expires": "15/12/2017 15:00:25"
+                                                               "upvotes": 1,
+                                                               "downvotes": 0
+                                                           }
+
+Ean o xrhsths prospa8hsei na kanei access to URI enos resource to opoio den exei dhmiourgh8ei 8a parei pisw
+status 404 Not found.
+Mia allh periptwsh sthn opoia pernoume diaforetiko status code einai otan kati den phge kala sto server/servlet
+otan esteile ena request o xrhsths. Se afth thn periptwsh tha parei pisw status 500 Internal server error.

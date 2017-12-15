@@ -44,7 +44,12 @@ public class getActiveInitiatives extends HttpServlet {
             out.println("<title>Active Initiatives:</title>");
             out.println("</head>");
             out.println("<body>");
+            out.println("<button id=\"createInitiative\" type=\"button\" onclick=\"createInitiativeForm()\">Create</button>\n"
+                    + "    <button id=\"showOwn\" type=\"button\" onclick=\"showOwnInitiatives()\">Show Mine</button>\n"
+                    + "    <button id=\"getActive\" type=\"button\" onclick=\"getActiveInitiatives()\">Active</button>\n"
+                    + "    <button id=\"getExpired\" type=\"button\" onclick=\"getExpiredInitiatives()\">Expired</button>");
             //out.println(refresh button ->inactivateExpiredInitiatives + param:fromServlet apo poio servlet efuge);
+            out.println("<p>" + " " + "</p>");
             out.println("<button id='refresh' type='button' onclick='inactivateExpiredInitiatives()'>Refresh</button>");
             for (int i = 0; i < activeInitiatives.size(); i++) {
                 out.println("<h2>Title</h2>");

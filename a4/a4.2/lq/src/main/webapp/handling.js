@@ -871,8 +871,7 @@ function showInitiativeUI() {
     var initiativeHTML = '<button id="createInitiative" type="button" onclick="createInitiativeForm()">Create</button>\n\
                           <button id="showOwn" type="button" onclick="showOwnInitiatives()">Show Mine</button>\n\
                           <button id="getActive" type="button" onclick="getActiveInitiatives()">Active</button>\n\
-                          <button id="getExpired" type="button" onclick="getExpiredInitiatives()">Expired</button>\n\
-                          <button id="back" type="button" onclick="showUserUI()">Back</button>';
+                          <button id="getExpired" type="button" onclick="getExpiredInitiatives()">Expired</button>';
     container.innerHTML = initiativeHTML;
 }
 
@@ -882,7 +881,6 @@ function createInitiativeForm() {
     <button id="showOwn" type="button" onclick="showOwnInitiatives()">Show Mine</button>\n\
     <button id="getActive" type="button" onclick="getActiveInitiatives()">Active</button>\n\
     <button id="getExpired" type="button" onclick="getExpiredInitiatives()">Expired</button>\n\
-    <button id="back" type="button" onclick="showUserUI()">Back</button>\n\
     <div id="formContainer">\n\
         <form id="initiativeForm">\n\
             <label for="Title">Title<br></label>\n\
@@ -1015,7 +1013,6 @@ function getInitiativeForUpdate(title, creator, description, category, id){
     <button id="showOwn" type="button" onclick="showOwnInitiatives()">Show Mine</button>\n\
     <button id="getActive" type="button" onclick="getActiveInitiatives()">Active</button>\n\
     <button id="getExpired" type="button" onclick="getExpiredInitiatives()">Expired</button>\n\
-    <button id="back" type="button" onclick="showUserUI()">Back</button>\n\
     <div id="formContainer">\n\
         <form id="initiativeForm">\n\
             <label for="Title">Title<br></label>\n\
@@ -1071,7 +1068,6 @@ function VoteUpdateVote(action, upvotedownvote, title, creator, username) {//act
             container.innerHTML = InitiativesHTML;
             console.log(req.status);
             console.log(req.readyState);
-            console.log(req.responseText);
         } else if (req.readyState === 4 && req.status !== 200) {
             console.log(req.status);
             console.log(req.readyState);
@@ -1091,7 +1087,6 @@ function inactivateExpiredInitiatives() {
             console.log(req.status);
             console.log(req.readyState);
             console.log('Inactivating expired Initiatives...');
-            console.log(req.responseText);
             var container = document.getElementById('container');
             var refreshedHTML = req.responseText;
             container.innerHTML = refreshedHTML;
