@@ -1,39 +1,8 @@
-# README #
+A web-app project for the Web Programming (CS-359) course 
+at Computer Science Dpt. of University of Crete.
 
-This README would normally document whatever steps are necessary to get your application up and running.
+In this platform a user can create an account and then create and/or
+vote on initatives created by other users as well.
 
-# DATABASE CREDENTIALS
-
-username: csd2900
-
-passwd: i3XB5bKDt1
-
-database: csd2900
-
-host: 83.212.108.176
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+The technologies used for this project include JavaScript, HTML, CSS,
+Java Servlets, Apache Tomcat Server, MariaDB, AJAX Requests.
